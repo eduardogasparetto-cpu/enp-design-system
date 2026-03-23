@@ -1,0 +1,53 @@
+---
+description: "Always apply the EnP Design System skill as the default visual foundation for any UI, component, page, email, or asset being built — unless the user explicitly provides a different design system or visual direction."
+alwaysApply: true
+---
+
+# EnP Design System — Default Rule
+
+## When this applies
+
+This rule applies to **every task** that involves generating, editing, or reviewing visual output — including but not limited to:
+
+- HTML / CSS / Tailwind / SCSS
+- React / Next.js / Vue components
+- Landing pages, emails, social assets
+- Design tokens, color choices, typography decisions
+- UI mockups, wireframes, prototypes
+- Code reviews involving visual/UI code
+
+## What to do
+
+1. **Before writing any visual code**, read the EnP Design System skill located at `~/.cursor/skills/enp-design-system/SKILL.md`.
+2. **Ask the user which color mode to use** before generating any UI code. Present these options using the AskQuestion tool:
+   - **Institucional claro** — fundo Frost `#F4F7FB`, textos Deep Slate, CTA Button Blue `#1076DD`
+   - **Escuro institucional** — fundo `#212328`, textos brancos/Gray 20, CTA Sky Blue `#31B3F9`
+   - **Serviços** — fundo Midnight `#0D1B2E`, textos brancos/Gray 20, CTA Lightning Lime `#CDFF07`
+   
+   Skip this question only if: the user already specified the mode, or the task is editing existing code where the mode is already defined, or the context makes the mode obvious (e.g. "dark mode" = escuro institucional).
+3. **Use its tokens as the source of truth** for: colors, typography, spacing, border-radius, shadows, gradients, transitions, z-index, overlays, button states, input states, and aspect ratios.
+4. **Respect the chosen color mode** and apply the correct semantic tokens from §15 for that specific mode.
+5. **Follow the gradient rules** — including the negative rules (§3.3) for when NOT to use gradients.
+6. **Never hardcode values** that already exist as tokens in the skill.
+
+## When to ignore this rule
+
+- The user explicitly says to use a different design system, brand, or visual style.
+- The task is purely backend, infrastructure, or has zero visual component.
+- The user provides a Figma file or external spec that overrides the EnP system.
+
+## Key references inside the skill
+
+| Section | Content |
+|---|---|
+| §1 | Typography (family, scale, responsive sizes) |
+| §2 | Color palette (institutional, services, extension, gray, opacity tokens) |
+| §3 | Gradients (11 named + negative rules) |
+| §4–6 | Spacing, border-radius, shadows |
+| §7 | Transitions (curves + per-component mapping) |
+| §8 | Buttons (3 variants × 3 modes × 6 states + feedback) |
+| §9 | Inputs (spec + tokens + 3 modes × 6 states) |
+| §10 | Overlay patterns (6 contexts) |
+| §12 | Aspect ratios + image treatment |
+| §13–14 | Breakpoints, grid, z-index |
+| §15 | Semantic colors with WCAG ratios |
