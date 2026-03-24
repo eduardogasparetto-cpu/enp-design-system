@@ -11,7 +11,19 @@ Design System do Ecommerce na Pratica (EnP) empacotado como **Cursor Skill + Rul
 | `skill/SKILL.md` | `~/.cursor/skills/enp-design-system/SKILL.md` | Documento de referencia com todos os tokens visuais |
 | `rule/enp-design-system.mdc` | `~/.cursor/rules/enp-design-system.mdc` | Regra que ativa a skill automaticamente e pergunta o estilo |
 
-## Instalacao rapida
+## Instalacao via chat (recomendada)
+
+Abra o chat do Cursor (**Ctrl + L**) e cole:
+
+```
+Instale a skill enp-design-system a partir do repositório https://github.com/eduardogasparetto-cpu/enp-design-system — clone o repositório e copie os arquivos: skill/SKILL.md para ~/.cursor/skills/enp-design-system/SKILL.md e rule/enp-design-system.mdc para ~/.cursor/rules/enp-design-system.mdc. Crie as pastas se não existirem.
+```
+
+Reinicie o Cursor apos a instalacao.
+
+> Veja o guia completo para nao-tecnicos em [INSTALACAO.md](INSTALACAO.md)
+
+## Instalacao via terminal
 
 ### Mac / Linux
 
@@ -79,7 +91,13 @@ Isso vale para qualquer entrega — UI, landing pages, emails, apresentacoes, so
 
 ## Atualizacao
 
-Quando a skill for atualizada:
+No chat do Cursor:
+
+```
+Atualize a skill enp-design-system — faça git pull no repositório https://github.com/eduardogasparetto-cpu/enp-design-system e copie os arquivos atualizados para ~/.cursor/skills/ e ~/.cursor/rules/
+```
+
+Ou via terminal:
 
 ```bash
 cd enp-design-system
