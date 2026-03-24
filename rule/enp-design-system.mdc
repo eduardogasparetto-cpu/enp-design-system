@@ -36,11 +36,21 @@ This rule applies to **every task** that involves generating, editing, or review
 - The task is purely backend, infrastructure, or has zero visual component.
 - The user provides a Figma file or external spec that overrides the EnP system.
 
+## Post-generation checklist
+
+After generating or editing visual code, verify:
+
+1. **Surfaces over borders** — cards, slides, panels and containers use background contrast and/or box-shadow, never `border`. Borders are only for tables, inputs and explicit dividers (§18).
+2. **Semantic HTML for titles** — any text that functions as a title inside a card, slide, pricing plan, or content block must use a heading tag (`<h2>`, `<h3>`, `<h4>`) according to hierarchy, never `<p>` or `<span>`.
+3. **Opacity tokens in context** — tokens from §2.5 (`midnight/*`, `white/*`, `slate/*`) are for overlays, hover and glass only. Never use them as solid `border`, `background` or `color` values.
+4. **Icons bare by default** — NimbusIcons are rendered directly with color via semantic token. No decorative container (`div` with `background` + `border-radius`) unless the context requires an enlarged touch target.
+5. **Typography scale** — only use sizes from the §1 scale table: 12, 14, 16, 18, 22, 30, 42, 58, 70px. Font weights: 400 or 600 only.
+
 ## Key references inside the skill
 
 | Section | Content |
 |---|---|
-| §1 | Typography (family, scale, responsive sizes) |
+| §1 | Typography (family, scale with 14px Caption/UI, responsive sizes) |
 | §2 | Color palette (institutional, services, extension, gray, opacity tokens) |
 | §3 | Gradients (11 named + negative rules) |
 | §4–6 | Spacing, border-radius, shadows |
@@ -51,3 +61,5 @@ This rule applies to **every task** that involves generating, editing, or review
 | §12 | Aspect ratios + image treatment |
 | §13–14 | Breakpoints, grid, z-index |
 | §15 | Semantic colors with WCAG ratios |
+| §17 | Vertical rhythm (heading→content spacing with tokens) |
+| §18 | Surfaces and visual separation (backgrounds over borders) |

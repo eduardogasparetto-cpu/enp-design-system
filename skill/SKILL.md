@@ -1,8 +1,8 @@
 ---
 name: enp-design-system
 description: Design system specification for Ecommerce na Prática (EnP). Use this skill when building any interface, component, landing page, email, social asset, or tool for EnP. Contains all visual tokens, color modes, typography, spacing, gradients, buttons, states, overlays, aspect ratios, transitions and semantic color tables validated for WCAG contrast. Always consult this skill before generating any EnP visual output.
-version: 2.0.0
-updated: 2026-03-22
+version: 2.1.0
+updated: 2026-03-24
 base: Nuvemshop Brand Design Guidelines v1
 ---
 
@@ -62,11 +62,12 @@ Dois pesos apenas.
 | Display | 70px | 36px | 600 | -0.03em | 1.0 | Hero principal, capa de apresentação |
 | H1 | 58px | 36px | 600 | -0.025em | 1.05 | Título principal de seção ou LP |
 | H2 | 42px | 32px | 600 | -0.025em | 1.1 | Abertura de blocos de conteúdo |
-| H3 | 30px | 24px | 600 | -0.02em | 1.2 | Títulos de card, itens, subseções |
-| H4 | 22px | 20px | 600 | -0.01em | 1.3 | Cabeçalhos de card, preços, nomes |
+| H3 | 30px | 24px | 600 | -0.02em | 1.2 | Títulos de card, slides, itens, subseções |
+| H4 | 22px | 20px | 600 | -0.01em | 1.3 | Cabeçalhos de card, preços, nomes de plano |
 | Lead/Intro | 18px | 16px | 400 | 0 | 1.5 | Primeiro parágrafo após H1 ou H2 |
 | Body | 16px | 16px | 400 | 0 | 1.5 | Parágrafos, descrições, interface, botões |
 | Body longo | 18px | 16px | 400 | 0 | 1.5 | Blog, escola, materiais educacionais |
+| Caption/UI | 14px | 14px | 400 | 0 | 1.5 | Labels de formulário, textos de suporte em cards, captions legíveis |
 | Small/UI | 12px | 12px | 400 | 0 | 1.5 | Legendas, metadados, links de nav |
 | Label/Eyebrow | 12px | 12px | 600 | +0.10em | - | Uppercase · rótulos de seção, badges, tags |
 
@@ -129,7 +130,7 @@ Para contextos temáticos e campanhas. Múltiplas cores de extensão podem coexi
 
 ### 2.5 Tokens de opacidade
 
-Valores exclusivos de contexto de sobreposição. Não usar como cores de fundo sólido.
+Valores exclusivos de contexto de sobreposição — overlays, hover, glass e backdrop-filter. Nunca usar como cor de `border`, `background` sólido ou `color` de texto. Para bordas e divisores sólidos, usar os tokens de Gray Scale (§2.4) ou os tokens semânticos de divisor (§15).
 
 | Token | Hex rgba | Uso |
 |---|---|---|
@@ -687,4 +688,105 @@ Usar exclusivamente **NimbusIcons**.
 Documentação: https://nimbus.nuvemshop.com.br/documentation/resources/nimbus-icons
 
 Sempre buscar a documentação atualizada antes de usar. Não usar ícones de outras bibliotecas.
+
+---
+
+## 17. Ritmo vertical
+
+O espaçamento vertical segue **proximidade semântica**: headings se aproximam do conteúdo que introduzem e se afastam do conteúdo anterior. Todos os valores usam tokens de espaçamento existentes (seção 4). Referência validada contra o site institucional Nuvemshop em produção.
+
+### Heading → próximo elemento (margin-bottom)
+
+| Heading | → Lead / Subtítulo | → Conteúdo direto | Token lead | Token conteúdo |
+|---|---|---|---|---|
+| H1 (hero) | 32px | 32px | `--sp-8` | `--sp-8` |
+| H2 | 16px | 48px | `--sp-4` | `--sp-12` |
+| H3 (card) | 8px | 8px | `--sp-2` | `--sp-2` |
+| H4 (card) | 8px | 8px | `--sp-2` | `--sp-2` |
+
+### Lead / Descrição → conteúdo (margin-bottom)
+
+| Par | Valor | Token |
+|---|---|---|
+| Descrição de seção → grid / conteúdo | 48px | `--sp-12` |
+| Descrição de hero → CTA | 32px | `--sp-8` |
+
+### Label / Eyebrow → Heading (margin-bottom do eyebrow)
+
+8px (`--sp-2`) — formam uma unidade visual, espaçamento mínimo.
+
+### Entre parágrafos (margin-bottom)
+
+16px (`--sp-4`).
+
+### Bloco de título de seção → conteúdo principal
+
+O "bloco de título" é o conjunto eyebrow + heading + lead que abre uma seção.
+
+| Contexto | Valor | Token |
+|---|---|---|
+| Padrão (grid, lista, conteúdo) | 48px | `--sp-12` |
+
+### Dentro de cards
+
+| Par | Valor | Token |
+|---|---|---|
+| Ícone / imagem → heading do card | 16px | `--sp-4` |
+| Heading do card (H3/H4) → texto | 8px | `--sp-2` |
+| Texto → CTA do card | 16px | `--sp-4` |
+| Entre itens de lista em card | 8px | `--sp-2` |
+
+### Grids e listas
+
+| Contexto | Valor | Token |
+|---|---|---|
+| Cards em grid (2–4 colunas) | 24px | `--sp-6` |
+| Cards em lista vertical (1 coluna) | 16px | `--sp-4` |
+| Feature rows (itens com ícone) | 16px | `--sp-4` |
+
+### Micro-espaçamentos internos de componente
+
+| Par | Valor | Token |
+|---|---|---|
+| Estrelas / rating → texto | 4px | `--sp-1` |
+| Subtítulo de contexto → corpo | 4px | `--sp-1` |
+| H4 inline → descrição curta | 2px | sem token (mínimo funcional) |
+| Label de form → input | 6px | sem token (componente) |
+
+### Regra geral
+
+Usar **apenas tokens** para espaçamento vertical entre elementos semânticos. Valores de 2px e 6px são permitidos apenas dentro de componentes fechados (form fields, ratings, badges) onde o espaçamento é cosmético, não estrutural.
+
+---
+
+## 18. Superfícies e separação visual
+
+### Princípio
+
+A separação entre elementos é feita por **contraste de fundo**, não por bordas. Cards, slides, painéis e containers se destacam do fundo pela diferença de cor de superfície e, quando necessário, por sombra.
+
+### Hierarquia de superfícies — modo institucional claro
+
+| Camada | Cor | Token | Papel |
+|---|---|---|---|
+| Fundo de página | Frost `#F4F7FB` | `--frost` | Base geral |
+| Card / painel | Pure White `#FFFFFF` | `--card-bg` | Conteúdo elevado |
+| Card interno / destaque | Frost `#F4F7FB` ou Gray 10 `#EFF1F4` | `--card-inner` | Área dentro de card que precisa de contraste |
+
+### Quando usar bordas
+
+| Contexto | Borda permitida |
+|---|---|
+| Tabelas (`<table>`) | `1px solid var(--divider)` nas células |
+| Inputs e selects (§9) | `1px solid var(--input-border)` |
+| Dividers horizontais explícitos | `1px solid var(--divider)` ou `<hr>` |
+| Botão secundário/outline (§8) | `1px solid` conforme tokens de estado |
+
+### Onde NÃO usar bordas
+
+Cards, slides de carrossel, painéis de conteúdo, containers de feature, blocos de pricing, grids de logo, tiles de galeria. Nesses elementos, usar contraste de `background` e/ou `box-shadow` para separação visual.
+
+### Ícones
+
+NimbusIcons são usados diretamente, com cor via token semântico (`--accent`, `--text-secondary`, etc.). Por padrão, sem container decorativo (sem `div` com `background` + `border-radius` atrás do ícone). Containers são aceitáveis quando o contexto exige área de toque aumentada ou agrupamento visual intencional.
 
