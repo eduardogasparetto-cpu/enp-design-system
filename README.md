@@ -1,13 +1,15 @@
 # EnP Design System para Cursor
 
-Design System do Ecommerce na Pratica (EnP) empacotado como **Cursor Skill + Rule** para uso automatico em toda conversa que envolva UI.
+Design System do Ecommerce na Pratica (EnP) empacotado como **Cursor Skill + Rule** para uso automatico em toda conversa que envolva a marca EnP.
+
+> **Convencao:** quando o usuario disser "DS", "DS EnP" ou "Design System", esta se referindo a esta skill.
 
 ## O que instala
 
 | Arquivo | Destino | Funcao |
 |---|---|---|
 | `skill/SKILL.md` | `~/.cursor/skills/enp-design-system/SKILL.md` | Documento de referencia com todos os tokens visuais |
-| `rule/enp-design-system.mdc` | `~/.cursor/rules/enp-design-system.mdc` | Regra que ativa a skill automaticamente e pergunta o modo de cor |
+| `rule/enp-design-system.mdc` | `~/.cursor/rules/enp-design-system.mdc` | Regra que ativa a skill automaticamente e pergunta o estilo |
 
 ## Instalacao rapida
 
@@ -42,15 +44,18 @@ Se preferir copiar os arquivos na mao:
 
 ## Como funciona
 
-Apos a instalacao, toda conversa no Cursor que envolva geracao de UI vai automaticamente:
+Apos a instalacao, toda conversa no Cursor que mencione **Ecommerce na Pratica** ou **EnP** vai automaticamente:
 
 1. Carregar o Design System EnP como referencia
-2. Perguntar qual **modo de cor** usar antes de gerar codigo
-3. Aplicar os tokens corretos do modo escolhido
+2. Perguntar o que a pessoa quer criar
+3. Perguntar qual **estilo** usar
+4. Aplicar os tokens corretos do estilo escolhido
 
-### Modos de cor
+Isso vale para qualquer entrega — UI, landing pages, emails, apresentacoes, social, documentos, copys e qualquer output visual ou textual da marca.
 
-| Modo | Fundo | CTA principal | Quando usar |
+### Estilos
+
+| Estilo | Fundo | CTA principal | Quando usar |
 |---|---|---|---|
 | **Institucional claro** | Frost `#F4F7FB` | Button Blue `#1076DD` | Site institucional, LP, blog, escola |
 | **Escuro institucional** | `#212328` | Sky Blue `#31B3F9` | Versoes escuras do site e ferramentas |
@@ -58,17 +63,19 @@ Apos a instalacao, toda conversa no Cursor que envolva geracao de UI vai automat
 
 ## O que contem a skill
 
-- Tipografia (familia, escala, tamanhos responsivos)
+- Tipografia (familia, escala com 14px Caption/UI, tamanhos responsivos)
 - Paleta de cores (institucional, servicos, extensao, gray scale, tokens de opacidade)
 - 11 gradientes nomeados + regras de quando NAO usar
 - Espacamento, border-radius, sombras
 - Transicoes com mapeamento por componente
-- Botoes (primario, secundario, ghost x 3 modos x 6 estados)
-- Inputs e formularios (spec + tokens + 3 modos x 6 estados)
+- Botoes (primario, secundario, ghost x 3 estilos x 6 estados)
+- Inputs e formularios (spec + tokens + 3 estilos x 6 estados)
 - Overlay patterns (6 contextos com tokens, blur, z-index)
 - Aspect ratios + tratamento de imagem
 - Breakpoints, grid 12 colunas, z-index
-- Cores semanticas com ratios WCAG calculados para os 3 modos
+- Cores semanticas com ratios WCAG calculados para os 3 estilos
+- Ritmo vertical (espacamento heading-conteudo com tokens)
+- Superficies e separacao visual (backgrounds > borders)
 
 ## Atualizacao
 
@@ -83,5 +90,5 @@ bash install.sh        # Mac/Linux
 
 ## Versao
 
-- **Skill:** v2.0.0 (2026-03-22)
+- **Skill:** v2.1.0 (2026-03-24)
 - **Base:** Nuvemshop Brand Design Guidelines v1
