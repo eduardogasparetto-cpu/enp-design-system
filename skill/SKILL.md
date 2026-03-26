@@ -1,8 +1,8 @@
 ---
 name: enp-design-system
-description: Design system specification for Ecommerce na Prática (EnP). Use this skill when building any interface, component, landing page, email, social asset, or tool for EnP. Contains all visual tokens, color modes, typography, spacing, gradients, buttons, states, overlays, aspect ratios, transitions and semantic color tables validated for WCAG contrast. Always consult this skill before generating any EnP visual output.
-version: 2.1.0
-updated: 2026-03-24
+description: Design system specification for Ecommerce na Prática (EnP). Use this skill when building any interface, component, landing page, email, social asset, or tool for EnP. Contains all visual tokens, color modes, typography, spacing, gradients, buttons, states, overlays, aspect ratios, transitions, semantic color tables validated for WCAG contrast, table specification with opacity-based theming, logo usage rules with auto-selection by chromatic mode, and a wireframe catalog with 19 template categories. Always consult this skill before generating any EnP visual output.
+version: 2.3.0
+updated: 2026-03-26
 base: Nuvemshop Brand Design Guidelines v1
 ---
 
@@ -23,8 +23,21 @@ O que mudou na adaptação:
 - **Semântica validada:** todas as tabelas de cores semânticas foram calculadas com contraste WCAG 2.1.
 - **Estados de componentes:** documentados para os três modos com tokens de hover, active, focus, disabled e loading.
 - **Overlay patterns:** cinco padrões documentados com tokens de opacidade, blur e z-index.
+- **Tabelas:** especificação completa com sistema de opacidade relativa sobre `slate` que funciona nos três modos sem ajustes.
 
 O que permaneceu igual: Plus Jakarta Sans, sistema de espaçamento base 4px, border radius, breakpoints e grid de 12 colunas, escala de z-index, transições base e ícones NimbusIcons.
+
+### Instalação
+
+Cole este link no chat da sua IA (Cursor, Claude Code ou similar) e peça para ela instalar:
+
+```
+https://github.com/eduardogasparetto-cpu/enp-design-system
+```
+
+A IA vai copiar o arquivo `SKILL.md` para `.cursor/skills/enp-design-system/` no seu projeto e está pronto para uso.
+
+**Instalação manual:** baixe o [ZIP do repositório](https://github.com/eduardogasparetto-cpu/enp-design-system/archive/refs/heads/main.zip), extraia e copie `SKILL.md` para `.cursor/skills/enp-design-system/` na raiz do seu projeto.
 
 ---
 
@@ -143,6 +156,32 @@ Valores exclusivos de contexto de sobreposição — overlays, hover, glass e ba
 | `white/40` | `rgba(255,255,255,0.40)` | Glass nav pills |
 | `slate/20` | `rgba(49,54,66,0.20)` | Hover sutil modo institucional |
 | `slate/40` | `rgba(49,54,66,0.40)` | Separadores translúcidos |
+
+### 2.6 Tokens de superfície com opacidade
+
+Valores de opacidade sobre `slate` usados como `background` e `border` em superfícies de dados. Diferente da §2.5 (overlays, hover, glass), estes tokens **são** backgrounds e borders — projetados para criar contraste relativo ao modo ativo sem cores fixas.
+
+O token base é `slate` (Deep Slate `#313642`), que é escuro no modo claro e se inverte nos modos escuros. Qualquer percentual de opacidade gera contraste proporcional ao contexto.
+
+| Token | Opacidade | Uso principal | Escopo |
+|---|---|---|---|
+| `slate/10` | 10% | Borda de container de tabela | Tabelas |
+| `slate/[0.07]` | 7% | Fundo de header de tabela | Tabelas |
+| `slate/[0.06]` | 6% | Divisor entre linhas de tabela | Tabelas |
+| `slate/[0.05]` | 5% | Fundo de bloco de código dentro de card | Pontual |
+| `slate/[0.03]` | 3% | Faixa zebra de tabela (linhas pares) | Tabelas |
+
+#### Escopo de aplicação
+
+**Tabelas** — uso primário e recorrente. Todos os tokens desta seção foram projetados para a especificação de tabelas (§19): container, header, faixas alternadas e divisores. A combinação dos 5 níveis garante hierarquia visual sem dependência de cores fixas.
+
+**Pontuais** — uso secundário e restrito. `slate/[0.05]` pode ser usado em blocos de código (`<pre>`, `<code>`) embutidos dentro de cards, onde é necessário diferenciar visualmente o bloco do fundo do card sem usar `bg-frost` (que não se adapta ao modo escuro). Outros usos pontuais são permitidos desde que restritos a **áreas internas de componentes** — nunca como fundo de página, fundo de card principal, ou overlay.
+
+#### Regras
+
+1. **Escopo restrito:** estes tokens existem para tabelas e elementos internos de componentes. Para fundos de página, usar tokens de superfície (§18). Para overlays, usar §2.5.
+2. **Não substituem Gray Scale:** para bordas sólidas e divisores convencionais, continuar usando Gray Scale (§2.4) e tokens semânticos de divisor (§15). Os tokens desta seção são para **contraste relativo**, não para bordas absolutas.
+3. **Referência cruzada:** para detalhes completos de aplicação em tabelas, ver §19.
 
 ---
 
@@ -789,4 +828,214 @@ Cards, slides de carrossel, painéis de conteúdo, containers de feature, blocos
 ### Ícones
 
 NimbusIcons são usados diretamente, com cor via token semântico (`--accent`, `--text-secondary`, etc.). Por padrão, sem container decorativo (sem `div` com `background` + `border-radius` atrás do ícone). Containers são aceitáveis quando o contexto exige área de toque aumentada ou agrupamento visual intencional.
+
+---
+
+## 19. Tabelas
+
+### Princípio
+
+Tabelas usam **opacidade relativa sobre `slate`** em vez de cores fixas. Isso garante que o mesmo código funcione nos três modos cromáticos sem ajustes — slate é escuro no modo claro e claro no modo escuro, então qualquer percentual de opacidade gera contraste proporcional ao contexto.
+
+### Estrutura de camadas
+
+| Camada | Token | Opacidade | Propósito |
+|---|---|---|---|
+| Container (borda) | `slate/10` | 10% | Delimita a tabela, sutil mas visível |
+| Header (fundo) | `slate/[0.07]` | 7% | Distingue cabeçalho do corpo |
+| Faixa zebra (linhas pares) | `slate/[0.03]` | 3% | Guia horizontal de leitura |
+| Linhas ímpares | transparente | 0% | Herda fundo do card/página |
+| Divisor entre linhas | `slate/[0.06]` | 6% | Separa linhas sem peso visual |
+
+### Tipografia
+
+| Elemento | Font size | Peso | Cor |
+|---|---|---|---|
+| Cabeçalho (`<th>`) | 16px (`text-base`) | 600 (Semibold) | `text-g60` — diferenciado do conteúdo por peso e cor, não por tamanho |
+| Célula de corpo (`<td>`) | 16px (`text-base`) | 400 (Regular) | `text-slate` — cor principal do modo |
+| Célula de código / hex | 14px (`text-sm`) | 400 mono | `text-g60` — diferenciação tipográfica |
+
+### Espaçamento
+
+| Propriedade | Valor | Observação |
+|---|---|---|
+| Padding de célula | `px-5 py-3.5` (20px × 14px) | Mais respiro que o padrão 16×12 |
+| Border radius do container | 16px (`rounded-2xl`) | Alinhado ao token Large (§5) |
+| Gap no preview de cor | 12px (`gap-3`) | Entre swatch e label |
+
+### Swatch de preview
+
+Quando a tabela exibe cores (tabelas semânticas), cada linha inclui um preview com:
+
+| Elemento | Especificação |
+|---|---|
+| Swatch | `w-6 h-6 rounded-md` (24×24px, radius 6px) |
+| Borda do swatch | `border border-slate/10` — visível mesmo em cores claras |
+| Label "Aa" | `text-sm font-semibold px-2.5 py-1 rounded-md` sobre fundo do modo |
+
+### Regras de aplicação
+
+1. **Nunca usar cores fixas** (`bg-white`, `bg-frost`, `bg-g10`) em faixas alternadas ou headers de tabela. Sempre usar opacidade sobre `slate`.
+2. **A última linha** não tem divisor inferior: `last:border-b-0`.
+3. **Faixas começam com a mais escura**: linhas pares (índice 0, 2, 4...) recebem `bg-slate/[0.03]`, ímpares ficam transparentes.
+4. **Cabeçalho diferencia por peso e cor**, não por tamanho — mesmo 16px que o corpo, mas `font-semibold` + `text-g60` em vez de regular + `text-slate`.
+5. **Coluna WCAG** é condicional: só aparece se pelo menos um token da tabela tiver propriedade `ratio`. Tokens sem ratio exibem "—".
+6. **Border-collapse**: usar `border-collapse` na `<table>` para evitar gaps duplos entre divisores.
+
+### Referência CSS (Tailwind)
+
+```html
+<!-- Container -->
+<div class="rounded-2xl overflow-x-auto border border-slate/10">
+  <table class="w-full text-base border-collapse">
+
+    <!-- Header -->
+    <thead>
+      <tr class="bg-slate/[0.07]">
+        <th class="text-left px-5 py-3.5 text-base font-semibold text-g60 border-b border-slate/10">
+          Coluna
+        </th>
+      </tr>
+    </thead>
+
+    <!-- Body -->
+    <tbody>
+      <tr class="bg-slate/[0.03] border-b border-slate/[0.06] last:border-b-0">
+        <td class="px-5 py-3.5 text-slate">Conteúdo</td>
+      </tr>
+      <tr class="border-b border-slate/[0.06] last:border-b-0">
+        <td class="px-5 py-3.5 text-slate">Conteúdo</td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
+```
+
+### Racional
+
+O uso de opacidade sobre um único token (`slate`) cria um sistema de 3 níveis de profundidade (7%, 3%, 0%) que se adapta automaticamente. No modo claro, slate (#313642) é escuro — as opacidades geram tons frios sutis. No modo escuro, slate se inverte — as mesmas opacidades geram claridade sutil sobre o fundo escuro. Zero configuração por modo.
+
+---
+
+## 20. Logo
+
+### Variantes disponíveis
+
+| Variante | Arquivo | Uso |
+|---|---|---|
+| Logo completo colorido | `logo-colorido-ecommerce-na-pratica.svg` | Modo claro — uso padrão quando há espaço horizontal |
+| Logo completo branco | `logo-branco-ecommerce-na-pratica.svg` | Modos escuro e serviços — sobre fundos escuros |
+| Símbolo azul | `simbolo-azul-ecommerce-na-pratica.svg` | Modo claro — espaços reduzidos (nav, favicon, sidebar) |
+| Símbolo branco | `simbolo-branco-ecommerce-na-pratica.svg` | Modos escuro e serviços — espaços reduzidos sobre fundos escuros |
+| Avatar azul/branco | `avatar-azul-branco-ecommerce-na-pratica.svg` | Avatares circulares, perfis de redes sociais, ícones de app |
+
+Assets disponíveis no Google Drive:
+- [Logo completo](https://drive.google.com/drive/folders/1V1KQvy2448V4XFcuL_2Zos70EwiaJMiJ?usp=drive_link)
+- [Símbolo](https://drive.google.com/drive/folders/1tU3TomLqy_s32LfQvOEMn4byeUyUp3d6?usp=drive_link)
+- [Avatar](https://drive.google.com/drive/folders/1BNSVv6kGcYFKFaYG9kMyuLd177RZ0t_w?usp=drive_link)
+
+### Seleção automática por modo cromático
+
+| Modo | Logo completo | Símbolo |
+|---|---|---|
+| Institucional claro | Colorido | Azul |
+| Escuro institucional | Branco | Branco |
+| Serviços | Branco | Branco |
+
+**Regra:** ao inserir o logo, identificar o modo cromático ativo e usar automaticamente a versão correta (colorido/azul para fundos claros, branco para fundos escuros).
+
+### Seleção por contexto
+
+| Contexto | Variante |
+|---|---|
+| Header de LP, hero, rodapé, material impresso | Logo completo |
+| Navbar, sidebar, favicon, ícone de app, breadcrumb | Símbolo |
+| Perfil de rede social, avatar de chat, ícone redondo | Avatar |
+
+**Regra:** quando o contexto exigir logo do EnP, perguntar ao usuário "logo completo ou apenas o símbolo?" caso o contexto não torne a escolha óbvia. Em espaços com largura inferior a 120px, usar automaticamente o símbolo.
+
+### Área de respiro
+
+Espaço livre mínimo ao redor do logo: **metade da altura do símbolo** em cada direção. Nenhum elemento gráfico, texto ou borda pode invadir essa área.
+
+### Uso incorreto
+
+1. **Não distorcer ou esticar** — manter proporções originais
+2. **Não alterar cores do logo** — usar apenas as versões oficiais
+3. **Não adicionar efeitos** — sem sombra, brilho, contorno ou gradiente sobre o logo
+4. **Não rotacionar** — o logo deve estar sempre na orientação original
+5. **Não usar sobre fundos que comprometam legibilidade** — evitar fundos com padrão, foto sem overlay ou cores que reduzam contraste
+6. **Não usar versão colorida sobre fundo escuro** — usar a versão branca
+
+---
+
+## 21. Wireframes
+
+### Sobre
+
+O Design System inclui uma biblioteca de wireframes HTML prontos para uso como blocos de construção de landing pages. Cada wireframe é um arquivo HTML estático com tokens CSS do sistema, pronto para adaptação.
+
+### Instrução para o agente
+
+**Antes de criar qualquer seção de landing page do zero, consulte os wireframes existentes.** O catálogo está indexado em `src/lib/tokens.ts` na constante `wireframeCategories`. Os arquivos HTML ficam em `public/wireframes/`.
+
+Fluxo de uso:
+1. Identificar qual tipo de seção o usuário precisa (hero, features, pricing, etc.)
+2. Consultar o catálogo abaixo para encontrar o wireframe mais adequado
+3. Ler o HTML do wireframe (`public/wireframes/<arquivo>.html`)
+4. Adaptar o conteúdo, tokens e modo cromático ao contexto do projeto
+5. Nunca copiar o HTML cru — sempre converter para o framework do projeto (React, Next.js, etc.)
+
+### Catálogo de categorias
+
+#### Seções primárias
+
+| Template | Qtd | Prioridade | Arquivo | Descrição |
+|---|---|---|---|---|
+| Hero | 10 | Crítica | `hero-top10-institucional.html` | Top 10 por conversão mobile |
+| Features | 5 | Crítica | `features.html` | Stats, steps, tabs, checklist grid, deep content |
+| Testimonial | 5 | Crítica | `testimonial.html` | Carousel, grid, stat+quote, masonry, single case |
+| Pricing | 5 | Alta | `pricing.html` | 3 colunas, toggle, single plan, value stack, +FAQ |
+| CTA | 5 | Crítica | `cta.html` | Dark centered, dual, social proof, image, banner strip |
+
+#### Conteúdo e navegação
+
+| Template | Qtd | Prioridade | Arquivo | Descrição |
+|---|---|---|---|---|
+| Headers | 6 | Alta | `headers.html` | Large (2), medium (2), small (2) — páginas internas |
+| FAQs | 2 | Alta | `faqs.html` | Single column accordion, tabbed accordion |
+| Navigation | 1 | Ref. | `navigation.html` | Logo + links + CTA — referência estrutural |
+
+#### Conversão e captura
+
+| Template | Qtd | Prioridade | Arquivo | Descrição |
+|---|---|---|---|---|
+| Banners | 4 | Alta | `banners.html` | Email capture, announcement, cookie, top bar |
+| Signup / Login | 2 | Média | `signup.html` | Split form, centered form |
+| Contact | 1 | Alta | `contact.html` | Simple form — entrada de leads para consultoria |
+
+#### Prova e credibilidade
+
+| Template | Qtd | Prioridade | Arquivo | Descrição |
+|---|---|---|---|---|
+| Integrations | 2 | Alta | `integrations.html` | Logo strip + headline, integration cards |
+| Comparison | 1 | Média | `comparison.html` | Comparison table — EnP vs. sem método |
+| Gallery | 2 | Média | `gallery.html` | Masonry grid, image carousel |
+| Logo | 2 | Baixa | `logo.html` | Static logo grid, marquee — pós D2C Summit |
+
+#### Estrutura e utilidades
+
+| Template | Qtd | Prioridade | Arquivo | Descrição |
+|---|---|---|---|---|
+| Footer | 2 | Alta | `footer-section.html` | Four-column footer, compact footer |
+| Legal | 1 | Base | `legal.html` | Legal page — termos e privacidade LGPD |
+| Transitions | 1 | Baixa | `transitions.html` | Section transition — gradiente entre blocos |
+
+### Regras
+
+1. **Wireframes são ponto de partida, não produto final.** Adaptar sempre ao contexto, conteúdo e modo cromático do projeto.
+2. **Prioridade Crítica = usar sempre que possível.** São os blocos com maior impacto em conversão.
+3. **Respeitar tokens do DS.** Os wireframes já usam variáveis CSS do sistema — ao converter para React/Next.js, mapear para os tokens Tailwind equivalentes.
+4. **Combinar wireframes livremente.** Uma LP típica usa: Navigation + Hero + Features + Testimonial + Pricing + CTA + Footer.
 

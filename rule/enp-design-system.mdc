@@ -1,71 +1,30 @@
 ---
-description: "Always apply the EnP Design System skill whenever the conversation involves Ecommerce na Prática or EnP — for any output type, not just UI."
+description: "Auto-detect and install the EnP Design System skill. Runs silently on every conversation to ensure the skill is available."
 alwaysApply: true
 ---
 
-# EnP Design System — Default Rule
+# EnP Design System — Skill Detection
 
-## Naming convention
+## Purpose
 
-When the user says **"DS"**, **"DS EnP"** or **"Design System"**, they are referring to the EnP Design System skill at `~/.cursor/skills/enp-design-system/SKILL.md`.
+This rule checks whether the EnP Design System skill is installed in the current project. It runs on every conversation and takes no action if the skill is already present.
 
-## When this applies
+## Detection
 
-This rule applies to **every task** that involves **Ecommerce na Prática** or **EnP** — including but not limited to:
+1. **Check** if the file `.cursor/skills/enp-design-system/SKILL.md` exists in the project root (or `~/.cursor/skills/enp-design-system/SKILL.md` at user level).
+2. **If found** — do nothing. The companion rule `enp-design-system-apply` handles usage instructions.
+3. **If NOT found** — inform the user:
 
-- HTML / CSS / Tailwind / SCSS
-- React / Next.js / Vue components
-- Landing pages, emails, social assets
-- Presentations and slides
-- Copywriting and content with visual direction
-- Design tokens, color choices, typography decisions
-- UI mockups, wireframes, prototypes
-- Code reviews involving visual/UI code
+   > Detectei que a skill do Design System do EnP ainda não está instalada neste projeto. Posso instalar agora?
 
-## What to do
+   **If the user agrees:**
+   - Clone `https://github.com/eduardogasparetto-cpu/enp-design-system` to a temp directory.
+   - Copy `SKILL.md` to `.cursor/skills/enp-design-system/SKILL.md` in the project root.
+   - Remove the cloned temp directory.
+   - Confirm: "Skill instalada com sucesso. O Design System do EnP está pronto para uso."
 
-1. **Before any EnP output**, read the Design System skill located at `~/.cursor/skills/enp-design-system/SKILL.md`.
-2. **Ask what the user wants to create**, then ask which **estilo** (style) to use. Present these options using the AskQuestion tool:
-   - **Institucional claro** — fundo Frost `#F4F7FB`, textos Deep Slate, CTA Button Blue `#1076DD`
-   - **Escuro institucional** — fundo `#212328`, textos brancos/Gray 20, CTA Sky Blue `#31B3F9`
-   - **Serviços** — fundo Midnight `#0D1B2E`, textos brancos/Gray 20, CTA Lightning Lime `#CDFF07`
-   
-   Skip this question only if: the user already specified the style, or the task is editing existing code where the style is already defined, or the context makes the style obvious (e.g. "dark mode" = escuro institucional, "serviços" = serviços).
-3. **Use its tokens as the source of truth** for: colors, typography, spacing, border-radius, shadows, gradients, transitions, z-index, overlays, button states, input states, and aspect ratios.
-4. **Respect the chosen style** and apply the correct semantic tokens from §15 for that specific style.
-5. **Follow the gradient rules** — including the negative rules (§3.3) for when NOT to use gradients.
-6. **Never hardcode values** that already exist as tokens in the skill.
-
-## When to ignore this rule
-
-- The user explicitly says to use a different design system, brand, or visual style.
-- The task is purely backend, infrastructure, or has zero relation to EnP.
-- The user provides a Figma file or external spec that overrides the EnP system.
-
-## Post-generation checklist
-
-After generating or editing visual code, verify:
-
-1. **Surfaces over borders** — cards, slides, panels and containers use background contrast and/or box-shadow, never `border`. Borders are only for tables, inputs and explicit dividers (§18).
-2. **Semantic HTML for titles** — any text that functions as a title inside a card, slide, pricing plan, or content block must use a heading tag (`<h2>`, `<h3>`, `<h4>`) according to hierarchy, never `<p>` or `<span>`.
-3. **Opacity tokens in context** — tokens from §2.5 (`midnight/*`, `white/*`, `slate/*`) are for overlays, hover and glass only. Never use them as solid `border`, `background` or `color` values.
-4. **Icons bare by default** — NimbusIcons are rendered directly with color via semantic token. No decorative container (`div` with `background` + `border-radius`) unless the context requires an enlarged touch target.
-5. **Typography scale** — only use sizes from the §1 scale table: 12, 14, 16, 18, 22, 30, 42, 58, 70px. Font weights: 400 or 600 only.
-
-## Key references inside the skill
-
-| Section | Content |
-|---|---|
-| §1 | Typography (family, scale with 14px Caption/UI, responsive sizes) |
-| §2 | Color palette (institutional, services, extension, gray, opacity tokens) |
-| §3 | Gradients (11 named + negative rules) |
-| §4–6 | Spacing, border-radius, shadows |
-| §7 | Transitions (curves + per-component mapping) |
-| §8 | Buttons (3 variants × 3 modes × 6 states + feedback) |
-| §9 | Inputs (spec + tokens + 3 modes × 6 states) |
-| §10 | Overlay patterns (6 contexts) |
-| §12 | Aspect ratios + image treatment |
-| §13–14 | Breakpoints, grid, z-index |
-| §15 | Semantic colors with WCAG ratios |
-| §17 | Vertical rhythm (heading→content spacing with tokens) |
-| §18 | Surfaces and visual separation (backgrounds over borders) |
+   **If the clone fails or the user declines:**
+   > **Instalação manual:**
+   > 1. Baixe o ZIP: https://github.com/eduardogasparetto-cpu/enp-design-system/archive/refs/heads/main.zip
+   > 2. Extraia o conteúdo
+   > 3. Copie o arquivo `SKILL.md` para `.cursor/skills/enp-design-system/` na raiz do seu projeto
