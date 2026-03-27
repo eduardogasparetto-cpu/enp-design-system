@@ -113,10 +113,14 @@ bash install.sh        # Mac/Linux
 
 ## Versao
 
-- **Skill:** v2.4.0 (2026-03-24)
+- **Skill:** v2.5.0 (2026-03-24)
 - **Base:** Nuvemshop Brand Design Guidelines v1
 
 ### Changelog
+
+**v2.5.0** (2026-03-24)
+- Adicionado passo de auto-atualizacao no protocolo de inicializacao (§0) — o agente verifica e sincroniza a skill do repositorio versionado antes de qualquer acao
+- Atualizada rule com Step 2 de auto-update antes da coleta de parametros
 
 **v2.4.0** (2026-03-24)
 - Adicionado §0 — Protocolo de inicializacao conversacional com gatilhos, coleta de parametros e regra de bloqueio

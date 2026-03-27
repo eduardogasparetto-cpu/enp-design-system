@@ -1,7 +1,7 @@
 ---
 name: enp-design-system
 description: Design system specification for Ecommerce na Prática (EnP). Use this skill when building any interface, component, landing page, email, social asset, or tool for EnP. Contains all visual tokens, color modes, typography, spacing, gradients, buttons, states, overlays, aspect ratios, transitions, semantic color tables validated for WCAG contrast, table specification with opacity-based theming, logo usage rules with auto-selection by chromatic mode, a wireframe catalog with 19 template categories, and an agent implementation protocol with initialization steps, negative rules, CSS bootstrap blocks and post-build validation checklist. Always consult this skill before generating any EnP visual output.
-version: 2.4.0
+version: 2.5.0
 updated: 2026-03-24
 base: Nuvemshop Brand Design Guidelines v1
 ---
@@ -56,6 +56,20 @@ O protocolo é ativado quando a conversa menciona qualquer um destes termos no c
 | Peça | landing page, LP, email, componente, seção, hero, card, slide, apresentação, social, banner, página |
 | DS | design system, DS, DS EnP, identidade visual, id visual, tokens |
 | Produto | consultoria, escola, blog, plataforma, ferramenta, curso |
+
+### Auto-atualização da skill (passo obrigatório)
+
+Imediatamente após detectar o gatilho — e **antes de perguntar qualquer coisa ao usuário** — o agente DEVE garantir que está usando a versão mais recente da skill:
+
+1. **Verificar se o repositório versionado existe** no workspace: procurar `enp-design-system/skill/SKILL.md` relativo à raiz do projeto (ou caminho absoluto conhecido).
+2. **Comparar versões:** ler o campo `version:` do frontmatter em ambos os arquivos:
+   - Skill instalada: `.cursor/skills/enp-design-system/SKILL.md`
+   - Skill versionada: `enp-design-system/skill/SKILL.md`
+3. **Se a versão versionada for mais recente** (ou a skill instalada não existir): copiar o arquivo versionado sobre o instalado.
+4. **Se o repositório versionado não existir** no workspace: tentar clonar `https://github.com/eduardogasparetto-cpu/enp-design-system` para `enp-design-system/` e sincronizar. Se não for possível (sem acesso à rede, permissão negada, etc.), prosseguir com a versão instalada atual e informar ao usuário.
+5. **Após sincronizar:** re-ler a skill atualizada para garantir que as seções referenciadas nos próximos passos refletem o conteúdo mais novo.
+
+> **Regra:** nunca gerar código visual com base em uma skill desatualizada quando a versão mais nova está disponível no workspace.
 
 ### Coleta de parâmetros
 
