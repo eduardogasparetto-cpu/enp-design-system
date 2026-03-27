@@ -1,8 +1,8 @@
 ---
 name: enp-design-system
-description: Design system specification for Ecommerce na Prática (EnP). Use this skill when building any interface, component, landing page, email, social asset, or tool for EnP. Contains all visual tokens, color modes, typography, spacing, gradients, buttons, states, overlays, aspect ratios, transitions, semantic color tables validated for WCAG contrast, table specification with opacity-based theming, logo usage rules with auto-selection by chromatic mode, and a wireframe catalog with 19 template categories. Always consult this skill before generating any EnP visual output.
-version: 2.3.0
-updated: 2026-03-26
+description: Design system specification for Ecommerce na Prática (EnP). Use this skill when building any interface, component, landing page, email, social asset, or tool for EnP. Contains all visual tokens, color modes, typography, spacing, gradients, buttons, states, overlays, aspect ratios, transitions, semantic color tables validated for WCAG contrast, table specification with opacity-based theming, logo usage rules with auto-selection by chromatic mode, a wireframe catalog with 19 template categories, and an agent implementation protocol with initialization steps, negative rules, CSS bootstrap blocks and post-build validation checklist. Always consult this skill before generating any EnP visual output.
+version: 2.4.0
+updated: 2026-03-24
 base: Nuvemshop Brand Design Guidelines v1
 ---
 
@@ -38,6 +38,60 @@ https://github.com/eduardogasparetto-cpu/enp-design-system
 A IA vai copiar o arquivo `SKILL.md` para `.cursor/skills/enp-design-system/` no seu projeto e está pronto para uso.
 
 **Instalação manual:** baixe o [ZIP do repositório](https://github.com/eduardogasparetto-cpu/enp-design-system/archive/refs/heads/main.zip), extraia e copie `SKILL.md` para `.cursor/skills/enp-design-system/` na raiz do seu projeto.
+
+---
+
+## 0. Protocolo de inicialização (obrigatório)
+
+O agente **NÃO PODE** gerar código visual para EnP sem completar esta inicialização. Não importa se o pedido é "só um botão" ou uma LP inteira — o protocolo se aplica.
+
+### Gatilhos de ativação
+
+O protocolo é ativado quando a conversa menciona qualquer um destes termos no contexto de criação ou edição visual:
+
+| Categoria | Termos |
+|---|---|
+| Marca | EnP, Ecommerce na Prática, ecommerce na pratica |
+| Modo | serviços, institucional, modo escuro, modo claro, dark mode |
+| Peça | landing page, LP, email, componente, seção, hero, card, slide, apresentação, social, banner, página |
+| DS | design system, DS, DS EnP, identidade visual, id visual, tokens |
+| Produto | consultoria, escola, blog, plataforma, ferramenta, curso |
+
+### Coleta de parâmetros
+
+Ao detectar um gatilho, o agente DEVE coletar estes parâmetros via conversa antes de escrever qualquer CSS, HTML ou componente. Usar a ferramenta `AskQuestion` quando disponível. Pular um parâmetro apenas se já estiver definido na conversa ou for óbvio pelo contexto.
+
+**1. Modo cromático** (obrigatório, nunca pular)
+
+Opções:
+- **Institucional claro** — fundo Frost `#F4F7FB`, textos Deep Slate, CTA Button Blue `#1076DD`
+- **Escuro institucional** — fundo `#212328`, textos brancos/Gray 20, CTA Sky Blue `#31B3F9`
+- **Serviços** — fundo Midnight `#0D1B2E`, textos brancos/Gray 20, CTA Lightning Lime `#CDFF07`
+
+Contextos que tornam o modo óbvio (não precisa perguntar): "página de consultoria" / "serviços" / "plano" = serviços. "Blog" / "escola" / "site institucional" = institucional claro. Se ambíguo, perguntar.
+
+**2. Tipo de peça** (obrigatório)
+
+Opções: Landing page completa · Seção isolada (especificar: hero, features, pricing, etc.) · Componente (botão, card, input, modal, etc.) · Email/Newsletter · Social asset · Slide/Apresentação · Outro.
+
+**3. Stack / Framework** (pular se óbvio pelo projeto)
+
+Opções: HTML + CSS puro · React + Tailwind · Next.js · Vue · Outro.
+
+### Após coletar os parâmetros
+
+Com as respostas, o agente DEVE executar estes passos antes de gerar qualquer código:
+
+1. **Carregar tokens semânticos** da §15 para o modo declarado — cores de texto, superfícies, ação e bordas
+2. **Inicializar CSS variables** usando o bloco bootstrap da §15d para o modo — copiar o bloco inteiro como ponto de partida
+3. **Consultar wireframes** (§21) se for LP ou seção — nunca criar do zero sem consultar o catálogo
+4. **Aplicar escala tipográfica** da §1 — usar apenas tamanhos da tabela, com `clamp()` para responsividade
+5. **Aplicar ritmo vertical** da §17 — todo margin/padding DEVE usar tokens múltiplos de 4px
+6. **Verificar regras negativas** da §15e — ler antes de atribuir qualquer cor a qualquer elemento
+
+### Regra de bloqueio
+
+**NUNCA** prosseguir com código visual se o modo cromático não foi definido. Na dúvida, perguntar. Aplicar tokens errados é pior que perguntar. O agente NÃO deve "assumir serviços" ou "assumir institucional" — o modo DEVE ser explícito.
 
 ---
 
@@ -718,6 +772,130 @@ Valores exclusivos deste modo - não fazem parte da paleta principal.
 | Foco de input | Sky Blue | `#31B3F9` | 6.41 | AA |
 | Divisores | Gray 40 | `#979BA1` | 4.33 | non-text ✓ |
 
+### 15d - Bootstrap CSS por modo
+
+Blocos de CSS variables prontos para copiar como ponto de partida. O agente DEVE usar o bloco do modo ativo como primeira ação ao criar qualquer página ou componente.
+
+**Modo institucional claro:**
+
+```css
+:root {
+  --bg-page: #F4F7FB;
+  --bg-card: #FFFFFF;
+  --bg-card-inner: #F4F7FB;
+  --text-heading: #313642;
+  --text-body: #5C6167;
+  --text-body-strong: #313642;
+  --text-meta: #979BA1;
+  --accent: #1076DD;
+  --accent-hover: #FFFFFF;
+  --accent-active: #0A5BB5;
+  --link: #1076DD;
+  --link-hover: #313642;
+  --divider: #BDC0C6;
+  --input-border: #BDC0C6;
+  --input-focus: #1076DD;
+}
+```
+
+**Modo escuro institucional:**
+
+```css
+:root {
+  --bg-page: #212328;
+  --bg-card: #2A2D33;
+  --bg-card-inner: #1A1D22;
+  --text-heading: #FFFFFF;
+  --text-body: #BDC0C6;
+  --text-meta: #979BA1;
+  --accent: #31B3F9;
+  --accent-hover: #5AABF5;
+  --accent-active: #1A8FD1;
+  --link: #31B3F9;
+  --link-hover: #FFFFFF;
+  --nav-active: #CDFF07;
+  --divider: #979BA1;
+  --input-border: #979BA1;
+  --input-focus: #31B3F9;
+}
+```
+
+**Modo serviços:**
+
+```css
+:root {
+  --bg-page: #0D1B2E;
+  --bg-card: #313642;
+  --bg-card-inner: #1A2640;
+  --text-heading: #FFFFFF;
+  --text-body: #BDC0C6;
+  --text-meta: #979BA1;
+  --accent: #CDFF07;
+  --accent-hover: #D9FF3D;
+  --accent-active: #B8E000;
+  --ornamental: #31B3F9;    /* NUNCA usar como cor de texto */
+  --link: #31B3F9;
+  --link-hover: #FFFFFF;
+  --nav-active: #CDFF07;
+  --divider: #979BA1;
+  --input-border: #5C6167;
+  --input-focus: #31B3F9;
+}
+```
+
+### 15e - Regras negativas por modo
+
+Regras do que **NÃO** fazer em cada modo. O agente DEVE ler esta seção antes de atribuir qualquer cor a qualquer elemento.
+
+**Modo serviços — proibições:**
+
+1. **NUNCA** usar Sky Blue (`#31B3F9`) como `color` de texto. Sky Blue é APENAS ornamental (ícones SVG, `box-shadow`, `radial-gradient`, `border` decorativa). Qualquer `color: #31B3F9` aplicado a texto é erro — a única exceção são links `<a>`.
+2. **NUNCA** usar Sky Blue em eyebrows, headings, labels, badges, tags, ou qualquer string renderizada como texto.
+3. **NUNCA** usar `40px` como margin ou padding estrutural — 40px (`--sp-10`) é exclusivo para padding INTERNO vertical de card (§4). Para margins entre blocos, usar 32px (`--sp-8`) ou 48px (`--sp-12`).
+4. **NUNCA** inventar valores de espaçamento: todo valor DEVE existir na tabela §4. Se não existe, é erro.
+5. **NUNCA** usar font-size fora da escala §1: 12, 14, 16, 18, 22, 30, 42, 58, 70px. Qualquer outro valor é erro.
+6. Eyebrows e labels de seção usam cor de corpo (`--text-body` / Gray 20 `#BDC0C6`), NÃO accent e NÃO ornamental.
+
+**Modo institucional claro — proibições:**
+
+1. **NUNCA** usar branco puro `#FFFFFF` como fundo de página — usar Frost `#F4F7FB`.
+2. **NUNCA** usar Deep Slate `#313642` para legendas e metadados — usar Gray 40 `#979BA1`.
+3. **NUNCA** usar Lightning Lime como CTA principal — Lime é acento pontual no modo institucional, não protagonista.
+
+**Todos os modos — proibições:**
+
+1. **NUNCA** usar gradiente em texto, fundo de input, ícones < 24px, botões primários, estados de feedback, ou elementos repetidos em grid (§3.3).
+2. **NUNCA** usar bordas para separar cards, slides ou painéis — usar contraste de `background` e/ou `box-shadow` (§18).
+3. **NUNCA** usar font-weight 300, 500 ou 700 — apenas 400 (Regular) e 600 (Semibold).
+
+### 15f - Mapeamento componente → token (modo serviços)
+
+Tabela de qual token usar para cada componente. Elimina ambiguidade.
+
+| Componente | Propriedade | Token | Hex |
+|---|---|---|---|
+| Eyebrow / Label de seção | `color` | Corpo | `#BDC0C6` |
+| H1, H2 de seção | `color` | Heading | `#FFFFFF` |
+| H3, H4 dentro de card | `color` | Heading | `#FFFFFF` |
+| Parágrafo / descrição | `color` | Corpo | `#BDC0C6` |
+| Texto secundário em card | `color` | Corpo | `#BDC0C6` |
+| Metadado (empresa, data, cargo) | `color` | Metadata | `#979BA1` |
+| Tag / Badge | `color` + `background` | Accent | `#CDFF07` + `rgba(205,255,7,0.10)` |
+| Ícone decorativo (SVG) | `color` | Ornamental | `#31B3F9` |
+| Glow / Luz radial | `background` | Ornamental | `rgba(49,179,249,*)` |
+| Botão primário | `background` | Accent | `#CDFF07` |
+| Botão primário texto | `color` | Midnight | `#0D1B2E` |
+| Botão outline | `color` + `border` | Accent | `#CDFF07` |
+| Link `<a>` | `color` | Link | `#31B3F9` |
+| Link hover | `color` | Link hover | `#FFFFFF` |
+| FAQ símbolo +/− | `color` | Accent | `#CDFF07` |
+| FAQ pergunta hover | `color` | Link hover | `#FFFFFF` |
+| FAQ pergunta aberta | `color` | Nav ativo | `#CDFF07` |
+| Estrelas de rating | `background` | Accent | `#CDFF07` |
+| Bullet de lista | `background` | Accent | `#CDFF07` |
+| Footer link hover | `color` | Link hover | `#FFFFFF` |
+| Input focus ring | `border-color` | Input focus | `#31B3F9` |
+
 ---
 
 ## 16. Ícones
@@ -795,6 +973,38 @@ O "bloco de título" é o conjunto eyebrow + heading + lead que abre uma seção
 ### Regra geral
 
 Usar **apenas tokens** para espaçamento vertical entre elementos semânticos. Valores de 2px e 6px são permitidos apenas dentro de componentes fechados (form fields, ratings, badges) onde o espaçamento é cosmético, não estrutural.
+
+### Referência CSS rápida
+
+Valores prontos para copiar. O agente DEVE usar estes valores, não inventar outros.
+
+```css
+/* ─── Eyebrow → Heading ─── */
+.eyebrow     { margin-bottom: 0.5rem; }     /*  8px = --sp-2  */
+
+/* ─── Heading → próximo ─── */
+.hero-title  { margin-bottom: 2rem; }        /* 32px = --sp-8  (H1 → lead) */
+.sec-title   { margin-bottom: 1rem; }        /* 16px = --sp-4  (H2 → lead/desc) */
+.card-title  { margin-bottom: 0.5rem; }      /*  8px = --sp-2  (H3/H4 → texto) */
+
+/* ─── Descrição → conteúdo ─── */
+.hero-lead   { margin-bottom: 2rem; }        /* 32px = --sp-8  (lead → CTA) */
+.sec-desc    { margin-bottom: 1rem; }        /* 16px = --sp-4  (entre parágrafos) */
+.content-grid { margin-top: 3rem; }          /* 48px = --sp-12 (título bloco → grid) */
+
+/* ─── Dentro de card ─── */
+.card-icon   { margin-bottom: 1rem; }        /* 16px = --sp-4  (ícone → heading) */
+.card-title  { margin-bottom: 0.5rem; }      /*  8px = --sp-2  (heading → texto) */
+.card-text   { margin-bottom: 1rem; }        /* 16px = --sp-4  (texto → CTA) */
+.list-item   { margin-bottom: 0.5rem; }      /*  8px = --sp-2  (entre itens de lista) */
+
+/* ─── Grid gap ─── */
+.card-grid   { gap: 1.5rem; }               /* 24px = --sp-6  (cards em grid) */
+.card-list   { gap: 1rem; }                 /* 16px = --sp-4  (cards em lista) */
+
+/* ─── Seção ─── */
+.section     { padding-block: 7.5rem; }     /* 120px = padrão de seção */
+```
 
 ---
 
@@ -1038,4 +1248,55 @@ Fluxo de uso:
 2. **Prioridade Crítica = usar sempre que possível.** São os blocos com maior impacto em conversão.
 3. **Respeitar tokens do DS.** Os wireframes já usam variáveis CSS do sistema — ao converter para React/Next.js, mapear para os tokens Tailwind equivalentes.
 4. **Combinar wireframes livremente.** Uma LP típica usa: Navigation + Hero + Features + Testimonial + Pricing + CTA + Footer.
+
+---
+
+## 22. Checklist de validação pós-build
+
+Após concluir qualquer interface EnP, o agente DEVE verificar cada item abaixo. Se qualquer item falhar, corrigir antes de declarar o trabalho concluído.
+
+### Cores
+
+- [ ] O modo cromático declarado na inicialização (§0) foi aplicado corretamente
+- [ ] Nenhum texto usa Sky Blue em modo serviços (exceto links `<a>`)
+- [ ] Eyebrows usam cor de corpo (`--text-body`), não accent nem ornamental
+- [ ] Headings são `--text-heading`, corpo é `--text-body`, metadados são `--text-meta`
+- [ ] Tags e badges usam accent (Lime em serviços, Button Blue em institucional)
+- [ ] Hover de links é `--link-hover` (White em escuro/serviços, Deep Slate em claro)
+- [ ] Ícones SVG podem usar `--ornamental` — nenhum outro texto pode
+- [ ] Nenhuma cor hardcoded existe fora da paleta do modo ativo (§2 + §15)
+
+### Tipografia
+
+- [ ] Todos os `font-size` usam variáveis da escala §1 — nunca valores soltos
+- [ ] H1 = 58px, H2 = 42px, H3 = 30px, H4 = 22px (desktop) com `clamp()` para mobile
+- [ ] Eyebrow = 12px, uppercase, `letter-spacing: 0.10em`, weight 600
+- [ ] Body = 16px, Lead = 18px, Caption = 14px, Small = 12px
+- [ ] Apenas pesos 400 e 600 — nenhum 300, 500 ou 700
+- [ ] Plus Jakarta Sans como única fonte — nenhuma fonte secundária
+
+### Ritmo vertical
+
+- [ ] Todo espaçamento é múltiplo de 4px (base DS §4)
+- [ ] Eyebrow → heading = 8px (`--sp-2`)
+- [ ] H2 → lead = 16px (`--sp-4`)
+- [ ] H1 hero → lead = 32px (`--sp-8`)
+- [ ] Lead hero → CTA = 32px (`--sp-8`)
+- [ ] Bloco de título → grid/conteúdo = 48px (`--sp-12`)
+- [ ] Dentro de card: ícone → heading = 16px, heading → texto = 8px
+- [ ] Itens de lista = 8px (`--sp-2`)
+- [ ] Grid gap = 24px (`--sp-6`)
+- [ ] Padding de seção = 120px
+
+### Semântica HTML
+
+- [ ] Títulos de card usam `<h3>` ou `<h4>`, nunca `<p>` ou `<span>`
+- [ ] Hierarquia de headings é sequencial (h1 → h2 → h3, sem pular)
+- [ ] Seções usam `<section>` com `id` para scroll
+
+### Superfícies
+
+- [ ] Cards, painéis e containers NÃO usam `border` para separação (§18)
+- [ ] Separação visual feita por contraste de `background` e/ou `box-shadow`
+- [ ] Bordas permitidas apenas em: tabelas, inputs, dividers explícitos, botão outline
 

@@ -1,5 +1,5 @@
 ---
-description: "Apply the EnP Design System when the conversation involves Ecommerce na Prática, EnP, DS, DS EnP, Design System, Design System EnP, design system do EnP, marca EnP, identidade visual, identidade visual EnP, id visual, id EnP, or any visual output for the EnP brand."
+description: "Apply the EnP Design System when the conversation involves Ecommerce na Prática, EnP, DS, DS EnP, Design System, Design System EnP, design system do EnP, marca EnP, identidade visual, identidade visual EnP, id visual, id EnP, consultoria, escola, serviços, institucional, or any visual output for the EnP brand."
 alwaysApply: false
 ---
 
@@ -22,21 +22,61 @@ This rule applies to **every task** that involves **Ecommerce na Prática** or *
 - UI mockups, wireframes, prototypes
 - Code reviews involving visual/UI code
 
-## What to do
+## Mandatory initialization protocol (§0)
 
-1. **Before any EnP output**, read the Design System skill located at `~/.cursor/skills/enp-design-system/SKILL.md`.
-2. **Ask what the user wants to create**, then ask which **estilo** (style) to use. Present these options using the AskQuestion tool:
-   - **Institucional claro** — fundo Frost `#F4F7FB`, textos Deep Slate, CTA Button Blue `#1076DD`
-   - **Escuro institucional** — fundo `#212328`, textos brancos/Gray 20, CTA Sky Blue `#31B3F9`
-   - **Serviços** — fundo Midnight `#0D1B2E`, textos brancos/Gray 20, CTA Lightning Lime `#CDFF07`
-   
-   Skip this question only if: the user already specified the style, or the task is editing existing code where the style is already defined, or the context makes the style obvious (e.g. "dark mode" = escuro institucional, "serviços" = serviços).
-3. **Logo:** when the context requires the EnP logo, ask the user **"logo completo ou apenas o símbolo?"** unless the context makes the choice obvious (nav/favicon = símbolo, hero/footer = logo completo). Then select the correct color version based on the active chromatic mode — colorido/azul for light, branco for dark/services. See §20 in the skill.
-4. **Wireframes:** before creating any landing page section from scratch, consult the wireframe catalog in §21 of the skill. Read the relevant HTML file from `public/wireframes/` and adapt it to the project's framework and chromatic mode.
-5. **Use its tokens as the source of truth** for: colors, typography, spacing, border-radius, shadows, gradients, transitions, z-index, overlays, button states, input states, and aspect ratios.
-6. **Respect the chosen style** and apply the correct semantic tokens from §15 for that specific style.
-7. **Follow the gradient rules** — including the negative rules (§3.3) for when NOT to use gradients.
-8. **Never hardcode values** that already exist as tokens in the skill.
+**CRITICAL: Before generating ANY visual code for EnP, the agent MUST complete the conversational initialization protocol defined in §0 of the skill.**
+
+### Step 1 — Detect trigger
+
+The protocol activates when the conversation mentions any of these terms in a creation/editing context:
+
+| Category | Terms |
+|---|---|
+| Brand | EnP, Ecommerce na Prática, ecommerce na pratica |
+| Mode | serviços, institucional, modo escuro, modo claro, dark mode |
+| Piece | landing page, LP, email, componente, seção, hero, card, slide, apresentação, social, banner, página |
+| DS | design system, DS, DS EnP, identidade visual, id visual, tokens |
+| Product | consultoria, escola, blog, plataforma, ferramenta, curso |
+
+### Step 2 — Collect parameters via conversation
+
+Ask these questions using the `AskQuestion` tool when available. Skip a parameter ONLY if already explicitly defined in the conversation.
+
+**1. Chromatic mode** (NEVER skip — if context seems obvious, confirm rather than assume):
+- **Institucional claro** — Frost background, Button Blue CTA
+- **Escuro institucional** — #212328 background, Sky Blue CTA
+- **Serviços** — Midnight background, Lightning Lime CTA
+
+**2. Piece type** (NEVER skip):
+- Landing page · Section · Component · Email · Social · Slide · Other
+
+**3. Stack/Framework** (skip if obvious from project):
+- HTML + CSS · React + Tailwind · Next.js · Vue · Other
+
+### Step 3 — Initialize before coding
+
+With the answers collected, the agent MUST:
+
+1. Read the skill at `~/.cursor/skills/enp-design-system/SKILL.md`
+2. Load the CSS bootstrap block from §15d for the declared mode
+3. Load the negative rules from §15e for the declared mode
+4. Load the component→token mapping from §15f
+5. Consult wireframes (§21) if building a LP or section
+6. Apply typography scale from §1 with correct `clamp()` values
+7. Apply vertical rhythm from §17 — every spacing value MUST be a 4px multiple from §4
+
+### Blocking rule
+
+**NEVER proceed with visual code if the chromatic mode has not been explicitly defined.** Applying wrong tokens is worse than asking one question. The agent MUST NOT "assume serviços" or "assume institucional" — the mode MUST be explicit.
+
+## What to do (after initialization)
+
+1. **Use skill tokens as the source of truth** for: colors, typography, spacing, border-radius, shadows, gradients, transitions, z-index, overlays, button states, input states, and aspect ratios.
+2. **Respect the chosen mode** and apply the correct semantic tokens from §15 for that specific mode.
+3. **Follow the gradient rules** — including the negative rules (§3.3) for when NOT to use gradients.
+4. **Never hardcode values** that already exist as tokens in the skill.
+5. **Logo:** when the context requires the EnP logo, ask "logo completo ou apenas o símbolo?" unless obvious. Select color version based on active mode (§20).
+6. **Wireframes:** before creating any LP section from scratch, consult §21. Read the relevant HTML file and adapt to the project's framework and mode.
 
 ## When to ignore this rule
 
@@ -44,23 +84,38 @@ This rule applies to **every task** that involves **Ecommerce na Prática** or *
 - The task is purely backend, infrastructure, or has zero relation to EnP.
 - The user provides a Figma file or external spec that overrides the EnP system.
 
-## Post-generation checklist
+## Post-generation checklist (§22)
 
-After generating or editing visual code, verify:
+After generating or editing visual code, the agent MUST run the full checklist from §22 of the skill. Key checks:
 
-1. **Surfaces over borders** — cards, slides, panels and containers use background contrast and/or box-shadow, never `border`. Borders are only for tables, inputs and explicit dividers (§18).
-2. **Semantic HTML for titles** — any text that functions as a title inside a card, slide, pricing plan, or content block must use a heading tag (`<h2>`, `<h3>`, `<h4>`) according to hierarchy, never `<p>` or `<span>`.
-3. **Opacity tokens in context** — §2.5 tokens (`midnight/*`, `white/*`, `slate/*`) are for overlays, hover and glass only. §2.6 tokens (`slate/10`, `slate/[0.07]`, `slate/[0.06]`, `slate/[0.05]`, `slate/[0.03]`) are for table surfaces and punctual internal containers. Never mix scopes.
-4. **Icons bare by default** — NimbusIcons are rendered directly with color via semantic token. No decorative container (`div` with `background` + `border-radius`) unless the context requires an enlarged touch target.
-5. **Typography scale** — only use sizes from the §1 scale table: 12, 14, 16, 18, 22, 30, 42, 58, 70px. Font weights: 400 or 600 only.
-6. **Logo version** — verify that the logo variant matches the active chromatic mode (§20).
+### Colors
+- No text uses Sky Blue in services mode (except `<a>` links)
+- Eyebrows use body color (`--text-body`), not accent or ornamental
+- Tags/badges use accent (Lime in services, Button Blue in institutional)
+- No hardcoded color exists outside the active mode's palette
+
+### Typography
+- All `font-size` values come from the §1 scale (12, 14, 16, 18, 22, 30, 42, 58, 70px)
+- Only weights 400 and 600
+- Plus Jakarta Sans as sole font
+
+### Vertical rhythm
+- Every spacing value is a 4px multiple from §4
+- Eyebrow→heading = 8px, H2→lead = 16px, title block→content = 48px
+- Card internals: icon→heading = 16px, heading→text = 8px, list items = 8px
+- Grid gap = 24px, section padding = 120px
+
+### Semantics
+- Card titles use `<h3>`/`<h4>`, never `<p>` or `<span>`
+- No borders on cards/panels for separation (use background contrast)
 
 ## Key references inside the skill
 
 | Section | Content |
 |---|---|
-| §1 | Typography (family, scale with 14px Caption/UI, responsive sizes) |
-| §2 | Color palette (institutional, services, extension, gray, opacity tokens, surface tokens) |
+| §0 | Initialization protocol (triggers, parameters, blocking rule) |
+| §1 | Typography (family, scale, responsive sizes) |
+| §2 | Color palette (institutional, services, extension, gray, opacity) |
 | §3 | Gradients (11 named + negative rules) |
 | §4–6 | Spacing, border-radius, shadows |
 | §7 | Transitions (curves + per-component mapping) |
@@ -69,9 +124,13 @@ After generating or editing visual code, verify:
 | §10 | Overlay patterns (6 contexts) |
 | §12 | Aspect ratios + image treatment |
 | §13–14 | Breakpoints, grid, z-index |
-| §15 | Semantic colors with WCAG ratios |
-| §17 | Vertical rhythm (heading→content spacing with tokens) |
-| §18 | Surfaces and visual separation (backgrounds over borders) |
-| §19 | Tables (opacity-based theming with slate tokens) |
-| §20 | Logo (variants, auto-selection by mode, clearance, misuse rules) |
-| §21 | Wireframes (catalog of 19 categories, fetch instructions) |
+| §15a–c | Semantic colors with WCAG ratios |
+| §15d | CSS bootstrap blocks per mode |
+| §15e | Negative rules per mode |
+| §15f | Component→token mapping |
+| §17 | Vertical rhythm with CSS reference |
+| §18 | Surfaces and visual separation |
+| §19 | Tables (opacity-based theming) |
+| §20 | Logo (variants, auto-selection, clearance) |
+| §21 | Wireframes (19 categories) |
+| §22 | Post-build validation checklist |

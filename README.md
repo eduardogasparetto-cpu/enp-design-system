@@ -86,8 +86,13 @@ Isso vale para qualquer entrega — UI, landing pages, emails, apresentacoes, so
 - Aspect ratios + tratamento de imagem
 - Breakpoints, grid 12 colunas, z-index
 - Cores semanticas com ratios WCAG calculados para os 3 estilos
-- Ritmo vertical (espacamento heading-conteudo com tokens)
+- Ritmo vertical (espacamento heading-conteudo com tokens + referencia CSS copiavel)
 - Superficies e separacao visual (backgrounds > borders)
+- **Protocolo de inicializacao conversacional** (§0) — gatilhos, coleta de parametros, regra de bloqueio
+- **Bootstrap CSS por modo** (§15d) — blocos prontos para copiar
+- **Regras negativas por modo** (§15e) — o que NAO fazer em cada modo
+- **Mapeamento componente→token** (§15f) — tabela completa para servicos
+- **Checklist de validacao pos-build** (§22) — cores, tipografia, ritmo, semantica, superficies
 
 ## Atualizacao
 
@@ -108,5 +113,22 @@ bash install.sh        # Mac/Linux
 
 ## Versao
 
-- **Skill:** v2.1.0 (2026-03-24)
+- **Skill:** v2.4.0 (2026-03-24)
 - **Base:** Nuvemshop Brand Design Guidelines v1
+
+### Changelog
+
+**v2.4.0** (2026-03-24)
+- Adicionado §0 — Protocolo de inicializacao conversacional com gatilhos, coleta de parametros e regra de bloqueio
+- Adicionado §15d — Bootstrap CSS com blocos prontos por modo cromatico
+- Adicionado §15e — Regras negativas explicitas por modo (o que NAO fazer)
+- Adicionado §15f — Mapeamento componente→token completo para modo servicos
+- Adicionado referencia CSS rapida na §17 (valores prontos para copiar)
+- Adicionado §22 — Checklist de validacao pos-build (cores, tipografia, ritmo, semantica, superficies)
+- Atualizada rule enp-design-system-apply.mdc com protocolo de inicializacao obrigatorio
+
+**v2.3.0** (2026-03-26)
+- Tabelas, logo, wireframes
+
+**v2.1.0** (2026-03-24)
+- Versao inicial publica
