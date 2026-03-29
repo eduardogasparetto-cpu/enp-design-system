@@ -1,30 +1,52 @@
 ---
-description: "Auto-detect and install the EnP Design System skill. Runs silently on every conversation to ensure the skill is available."
+description: "Auto-detect and install EnP skills. Runs silently on every conversation to ensure both enp-design-system and enp-app-guidelines are available when needed."
 alwaysApply: true
 ---
 
-# EnP Design System — Skill Detection
+# EnP Skills — Auto-Detection
 
 ## Purpose
 
-This rule checks whether the EnP Design System skill is installed in the current project. It runs on every conversation and takes no action if the skill is already present.
+This rule checks whether the EnP skills are installed in the current project and offers to install them when relevant context is detected.
 
-## Detection
+## Detection — Design System
 
-1. **Check** if the file `.cursor/skills/enp-design-system/SKILL.md` exists in the project root (or `~/.cursor/skills/enp-design-system/SKILL.md` at user level).
-2. **If found** — do nothing. The companion rule `enp-design-system-apply` handles usage instructions.
-3. **If NOT found** — inform the user:
+1. **Check** if `.cursor/skills/enp-design-system/SKILL.md` exists (project root or user level).
+2. **If found** — do nothing. The companion rule `enp-design-system-apply` handles usage.
+3. **If NOT found** and the conversation mentions EnP, visual output, or any DS trigger — inform the user:
 
-   > Detectei que a skill do Design System do EnP ainda não está instalada neste projeto. Posso instalar agora?
+   > Detectei que a skill do Design System do EnP nao esta instalada neste projeto. Posso instalar agora?
 
    **If the user agrees:**
    - Clone `https://github.com/eduardogasparetto-cpu/enp-design-system` to a temp directory.
-   - Copy `SKILL.md` to `.cursor/skills/enp-design-system/SKILL.md` in the project root.
+   - Copy all files from `skill/` to `.cursor/skills/enp-design-system/` in the project root.
+   - Copy all files from `rule/` to `.cursor/rules/` in the project root.
    - Remove the cloned temp directory.
-   - Confirm: "Skill instalada com sucesso. O Design System do EnP está pronto para uso."
 
    **If the clone fails or the user declines:**
-   > **Instalação manual:**
+   > **Instalacao manual:**
    > 1. Baixe o ZIP: https://github.com/eduardogasparetto-cpu/enp-design-system/archive/refs/heads/main.zip
-   > 2. Extraia o conteúdo
-   > 3. Copie o arquivo `SKILL.md` para `.cursor/skills/enp-design-system/` na raiz do seu projeto
+   > 2. Extraia e copie a pasta `skill/` para `.cursor/skills/enp-design-system/`
+   > 3. Copie a pasta `rule/` para `.cursor/rules/`
+
+## Detection — App Guidelines
+
+1. **Check** if `.cursor/skills/enp-app-guidelines/SKILL.md` exists (or `ENP - FERRAMENTAS/enp-app-guidelines/SKILL.md`).
+2. **If found** — do nothing. The companion rule `enp-app-guidelines-apply` handles usage.
+3. **If NOT found** and the conversation is about building an application interface (dashboard, admin, tool, CRUD, etc.) — inform the user:
+
+   > Detectei que a skill de App Guidelines do EnP nao esta instalada. Ela define padroes estruturais para interfaces de aplicacao. Posso instalar agora?
+
+   **If the user agrees:**
+   - Clone `https://github.com/eduardogasparetto-cpu/enp-app-guidelines` to a temp directory.
+   - Copy all files from `skill/` to `.cursor/skills/enp-app-guidelines/`.
+   - Remove the cloned temp directory.
+
+   **If the clone fails or the user declines:**
+   > **Instalacao manual:**
+   > 1. Baixe o ZIP: https://github.com/eduardogasparetto-cpu/enp-app-guidelines/archive/refs/heads/main.zip
+   > 2. Extraia e copie a pasta `skill/` para `.cursor/skills/enp-app-guidelines/`
+
+## Version check
+
+When either skill is found, compare the `version:` field in the installed SKILL.md with the version in any local repo clone (e.g., `enp-design-system/skill/SKILL.md`). If the repo version is newer, update the installed skill automatically.

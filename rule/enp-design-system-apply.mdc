@@ -1,13 +1,9 @@
 ---
-description: "Apply the EnP Design System when the conversation involves Ecommerce na Prática, EnP, DS, DS EnP, Design System, Design System EnP, design system do EnP, marca EnP, identidade visual, identidade visual EnP, id visual, id EnP, consultoria, escola, serviços, institucional, or any visual output for the EnP brand."
+description: "Apply the EnP Design System when the conversation involves visual output for EnP — triggered by words like: EnP, ecommerce na prática, design system, DS, identidade visual, marca, landing page, LP, hero, card, slide, banner, email, componente, seção, institucional, serviços, modo escuro, dark mode, consultoria, escola, blog, plataforma, ferramenta, curso, tokens, cores, tipografia, gradiente, paleta, wireframe, botão, input, formulário."
 alwaysApply: false
 ---
 
 # EnP Design System — Usage Rules
-
-## Naming convention
-
-When the user says **"DS"**, **"DS EnP"**, **"Design System"**, **"id visual"**, **"id EnP"** or **"identidade visual"**, they are referring to the EnP Design System skill at `~/.cursor/skills/enp-design-system/SKILL.md`.
 
 ## When this applies
 
@@ -17,133 +13,61 @@ This rule applies to **every task** that involves **Ecommerce na Prática** or *
 - React / Next.js / Vue components
 - Landing pages, emails, social assets
 - Presentations and slides
-- Copywriting and content with visual direction
 - Design tokens, color choices, typography decisions
 - UI mockups, wireframes, prototypes
 - Code reviews involving visual/UI code
 
-## Mandatory initialization protocol (§0)
+## What to do
 
-**CRITICAL: Before generating ANY visual code for EnP, the agent MUST complete the conversational initialization protocol defined in §0 of the skill.**
+### For new projects
 
-### Step 1 — Detect trigger
+1. **Read the Design System skill** at `.cursor/skills/enp-design-system/SKILL.md`.
+2. **Ask the chromatic mode** (using AskQuestion when available):
+   - **Institucional claro** — fundo Frost `#F4F7FB`, CTA Button Blue `#1076DD`
+   - **Escuro institucional** — fundo `#212328`, CTA Sky Blue `#31B3F9`
+   - **Serviços** — fundo Midnight `#0D1B2E`, CTA Lightning Lime `#CDFF07`
+   
+   Skip only if already specified, or context makes it obvious.
+3. **Copy the bootstrap CSS** from §15d of the skill for the chosen mode.
+4. **Read reference files** as needed: `semantic-colors.md`, `component-states.md`, `content-rules.md`, `wireframes.md`.
 
-The protocol activates when the conversation mentions any of these terms in a creation/editing context:
+### For existing projects
 
-| Category | Terms |
-|---|---|
-| Brand | EnP, Ecommerce na Prática, ecommerce na pratica |
-| Mode | serviços, institucional, modo escuro, modo claro, dark mode |
-| Piece | landing page, LP, email, componente, seção, hero, card, slide, apresentação, social, banner, página |
-| DS | design system, DS, DS EnP, identidade visual, id visual, tokens |
-| Product | consultoria, escola, blog, plataforma, ferramenta, curso |
+1. **Read the Design System skill** at `.cursor/skills/enp-design-system/SKILL.md`.
+2. **Auto-detect the chromatic mode** from existing code — check CSS variables, background colors, accent colors.
+3. **If mode is ambiguous**, ask the user.
+4. **Offer an audit** — scan for hardcoded colors that don't match the DS palette.
+5. **Read `migration-guide.md`** for step-by-step guidance on aligning existing code to the DS.
 
-### Step 2 — Auto-update skill from versioned repo
+### Cross-installation check
 
-Before asking any question, ensure the installed skill is the latest version:
+If the user is building an **application interface** (dashboard, admin panel, internal tool) and the `enp-app-guidelines` skill is NOT installed:
 
-1. Check if `enp-design-system/skill/SKILL.md` exists in the workspace root.
-2. Compare the `version:` field in the frontmatter of both files:
-   - Installed: `~/.cursor/skills/enp-design-system/SKILL.md`
-   - Versioned: `enp-design-system/skill/SKILL.md` (workspace root)
-3. If the versioned file has a higher version (or the installed file doesn't exist): copy the versioned file over the installed one.
-4. If the versioned repo doesn't exist in the workspace: try to clone `https://github.com/eduardogasparetto-cpu/enp-design-system` and sync. If not possible, continue with the current installed version and inform the user.
-5. Re-read the updated skill to ensure all referenced sections are current.
+> Detectei que voce esta construindo uma interface de aplicacao, mas a skill `enp-app-guidelines` nao esta instalada. Ela define padroes de layout como AppShell, Page, Card, Tabs, DataTable e templates de pagina. Posso instalar agora?
+>
+> ```
+> https://github.com/eduardogasparetto-cpu/enp-app-guidelines
+> ```
 
-**Rule: NEVER generate visual code from an outdated skill when a newer version is available in the workspace.**
+## Tokens as source of truth
 
-### Step 3 — Collect parameters via conversation
+Use the skill tokens for: colors, typography, spacing, border-radius, shadows, gradients, transitions, z-index, overlays, button states, input states, and aspect ratios.
 
-Ask these questions using the `AskQuestion` tool when available. Skip a parameter ONLY if already explicitly defined in the conversation.
+## Post-generation checklist
 
-**1. Chromatic mode** (NEVER skip — if context seems obvious, confirm rather than assume):
-- **Institucional claro** — Frost background, Button Blue CTA
-- **Escuro institucional** — #212328 background, Sky Blue CTA
-- **Serviços** — Midnight background, Lightning Lime CTA
+After generating or editing visual code, verify:
 
-**2. Piece type** (NEVER skip):
-- Landing page · Section · Component · Email · Social · Slide · Other
-
-**3. Stack/Framework** (skip if obvious from project):
-- HTML + CSS · React + Tailwind · Next.js · Vue · Other
-
-### Step 4 — Initialize before coding
-
-With the answers collected, the agent MUST:
-
-1. Load the CSS bootstrap block from §15d for the declared mode
-2. Load the negative rules from §15e for the declared mode
-3. Load the component→token mapping from §15f
-4. Consult wireframes (§21) if building a LP or section
-5. Apply typography scale from §1 with correct `clamp()` values
-6. Apply vertical rhythm from §17 — every spacing value MUST be a 4px multiple from §4
-
-### Blocking rule
-
-**NEVER proceed with visual code if the chromatic mode has not been explicitly defined.** Applying wrong tokens is worse than asking one question. The agent MUST NOT "assume serviços" or "assume institucional" — the mode MUST be explicit.
-
-## What to do (after initialization)
-
-1. **Use skill tokens as the source of truth** for: colors, typography, spacing, border-radius, shadows, gradients, transitions, z-index, overlays, button states, input states, and aspect ratios.
-2. **Respect the chosen mode** and apply the correct semantic tokens from §15 for that specific mode.
-3. **Follow the gradient rules** — including the negative rules (§3.3) for when NOT to use gradients.
-4. **Never hardcode values** that already exist as tokens in the skill.
-5. **Logo:** when the context requires the EnP logo, ask "logo completo ou apenas o símbolo?" unless obvious. Select color version based on active mode (§20).
-6. **Wireframes:** before creating any LP section from scratch, consult §21. Read the relevant HTML file and adapt to the project's framework and mode.
+1. **No invented colors** — every hex value must exist in the DS palette (§2 + semantic-colors.md)
+2. **Surfaces over borders** — cards/panels use background contrast, not border (§18)
+3. **Semantic HTML** — titles use heading tags, not `<p>` or `<span>`
+4. **Opacity tokens in context** — §2.5 for overlays/glass, §2.6 for tables/containers
+5. **Icons bare by default** — no decorative containers around icons
+6. **Typography scale** — only 12, 14, 16, 18, 22, 30, 42, 58, 70px. Weights: 400 or 600
+7. **Logo version** — matches active chromatic mode (§20)
+8. **Text hierarchy** — exactly 3 levels: heading, body, meta. No invented intermediate tones.
 
 ## When to ignore this rule
 
-- The user explicitly says to use a different design system, brand, or visual style.
-- The task is purely backend, infrastructure, or has zero relation to EnP.
-- The user provides a Figma file or external spec that overrides the EnP system.
-
-## Post-generation checklist (§22)
-
-After generating or editing visual code, the agent MUST run the full checklist from §22 of the skill. Key checks:
-
-### Colors
-- No text uses Sky Blue in services mode (except `<a>` links)
-- Eyebrows use body color (`--text-body`), not accent or ornamental
-- Tags/badges use accent (Lime in services, Button Blue in institutional)
-- No hardcoded color exists outside the active mode's palette
-
-### Typography
-- All `font-size` values come from the §1 scale (12, 14, 16, 18, 22, 30, 42, 58, 70px)
-- Only weights 400 and 600
-- Plus Jakarta Sans as sole font
-
-### Vertical rhythm
-- Every spacing value is a 4px multiple from §4
-- Eyebrow→heading = 8px, H2→lead = 16px, title block→content = 48px
-- Card internals: icon→heading = 16px, heading→text = 8px, list items = 8px
-- Grid gap = 24px, section padding = 120px
-
-### Semantics
-- Card titles use `<h3>`/`<h4>`, never `<p>` or `<span>`
-- No borders on cards/panels for separation (use background contrast)
-
-## Key references inside the skill
-
-| Section | Content |
-|---|---|
-| §0 | Initialization protocol (triggers, parameters, blocking rule) |
-| §1 | Typography (family, scale, responsive sizes) |
-| §2 | Color palette (institutional, services, extension, gray, opacity) |
-| §3 | Gradients (11 named + negative rules) |
-| §4–6 | Spacing, border-radius, shadows |
-| §7 | Transitions (curves + per-component mapping) |
-| §8 | Buttons (3 variants × 3 modes × 6 states + feedback) |
-| §9 | Inputs (spec + tokens + 3 modes × 6 states) |
-| §10 | Overlay patterns (6 contexts) |
-| §12 | Aspect ratios + image treatment |
-| §13–14 | Breakpoints, grid, z-index |
-| §15a–c | Semantic colors with WCAG ratios |
-| §15d | CSS bootstrap blocks per mode |
-| §15e | Negative rules per mode |
-| §15f | Component→token mapping |
-| §17 | Vertical rhythm with CSS reference |
-| §18 | Surfaces and visual separation |
-| §19 | Tables (opacity-based theming) |
-| §20 | Logo (variants, auto-selection, clearance) |
-| §21 | Wireframes (19 categories) |
-| §22 | Post-build validation checklist |
+- The user explicitly says to use a different design system
+- The task is purely backend/infrastructure with zero relation to EnP
+- The user provides a Figma file that overrides the EnP system
