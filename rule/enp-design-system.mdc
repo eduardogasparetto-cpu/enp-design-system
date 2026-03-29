@@ -11,35 +11,59 @@ This rule checks whether the EnP skills are installed in the current project and
 
 ## Detection — Design System
 
-1. **Check** if `.cursor/skills/enp-design-system/SKILL.md` exists (project root or user level).
-2. **If found** — do nothing. The companion rule `enp-design-system-apply` handles usage.
-3. **If NOT found** and the conversation mentions EnP, visual output, or any DS trigger — inform the user:
+1. **Check** if `enp-design-system/SKILL.md` exists in ANY of these locations:
+   - `.cursor/skills/enp-design-system/SKILL.md` (project-level)
+   - `~/.cursor/skills/enp-design-system/SKILL.md` (user-level)
+2. **If found in either location** — do nothing. The companion rule `enp-design-system-apply` handles usage.
+3. **If NOT found in any location** and the conversation mentions EnP, visual output, or any DS trigger — use the **AskQuestion** tool to ask:
 
-   > Detectei que a skill do Design System do EnP nao esta instalada neste projeto. Posso instalar agora?
+   **Question:** "A skill do Design System do EnP nao esta instalada. Posso instalar agora? Se sim, onde?"
+   **Options:**
+   - **Nivel de usuario** — Disponivel em todos os projetos do Cursor (`~/.cursor/skills/` e `~/.cursor/rules/`)
+   - **Nivel de projeto** — Apenas neste projeto, viaja com o repo se commitado (`.cursor/skills/` e `.cursor/rules/`)
+   - **Nao instalar agora**
 
-   **If the user agrees:**
+   **If the user chooses user-level:**
    - Clone `https://github.com/eduardogasparetto-cpu/enp-design-system` to a temp directory.
-   - Copy all files from `skill/` to `.cursor/skills/enp-design-system/` in the project root.
-   - Copy all files from `rule/` to `.cursor/rules/` in the project root.
+   - Copy all files from `skill/` to `~/.cursor/skills/enp-design-system/`.
+   - Copy all files from `rule/` to `~/.cursor/rules/`.
+   - Remove the cloned temp directory.
+
+   **If the user chooses project-level:**
+   - Clone `https://github.com/eduardogasparetto-cpu/enp-design-system` to a temp directory.
+   - Copy all files from `skill/` to `.cursor/skills/enp-design-system/` (project root).
+   - Copy all files from `rule/` to `.cursor/rules/` (project root).
    - Remove the cloned temp directory.
 
    **If the clone fails or the user declines:**
    > **Instalacao manual:**
    > 1. Baixe o ZIP: https://github.com/eduardogasparetto-cpu/enp-design-system/archive/refs/heads/main.zip
-   > 2. Extraia e copie a pasta `skill/` para `.cursor/skills/enp-design-system/`
+   > 2. Extraia e copie a pasta `skill/` para `.cursor/skills/enp-design-system/` (no projeto ou em `~/.cursor/skills/`)
    > 3. Copie a pasta `rule/` para `.cursor/rules/`
 
 ## Detection — App Guidelines
 
-1. **Check** if `.cursor/skills/enp-app-guidelines/SKILL.md` exists (or `ENP - FERRAMENTAS/enp-app-guidelines/SKILL.md`).
-2. **If found** — do nothing. The companion rule `enp-app-guidelines-apply` handles usage.
-3. **If NOT found** and the conversation is about building an application interface (dashboard, admin, tool, CRUD, etc.) — inform the user:
+1. **Check** if `enp-app-guidelines/SKILL.md` exists in ANY of these locations:
+   - `.cursor/skills/enp-app-guidelines/SKILL.md` (project-level)
+   - `~/.cursor/skills/enp-app-guidelines/SKILL.md` (user-level)
+   - `ENP - FERRAMENTAS/enp-app-guidelines/SKILL.md` (workspace)
+2. **If found in any location** — do nothing. The companion rule `enp-app-guidelines-apply` handles usage.
+3. **If NOT found in any location** and the conversation is about building an application interface (dashboard, admin, tool, CRUD, etc.) — use the **AskQuestion** tool to ask:
 
-   > Detectei que a skill de App Guidelines do EnP nao esta instalada. Ela define padroes estruturais para interfaces de aplicacao. Posso instalar agora?
+   **Question:** "A skill de App Guidelines do EnP nao esta instalada. Ela define padroes estruturais para interfaces de aplicacao. Posso instalar? Se sim, onde?"
+   **Options:**
+   - **Nivel de usuario** — Disponivel em todos os projetos (`~/.cursor/skills/`)
+   - **Nivel de projeto** — Apenas neste projeto (`.cursor/skills/`)
+   - **Nao instalar agora**
 
-   **If the user agrees:**
+   **If the user chooses user-level:**
    - Clone `https://github.com/eduardogasparetto-cpu/enp-app-guidelines` to a temp directory.
-   - Copy all files from `skill/` to `.cursor/skills/enp-app-guidelines/`.
+   - Copy all files from `skill/` to `~/.cursor/skills/enp-app-guidelines/`.
+   - Remove the cloned temp directory.
+
+   **If the user chooses project-level:**
+   - Clone `https://github.com/eduardogasparetto-cpu/enp-app-guidelines` to a temp directory.
+   - Copy all files from `skill/` to `.cursor/skills/enp-app-guidelines/` (project root).
    - Remove the cloned temp directory.
 
    **If the clone fails or the user declines:**
