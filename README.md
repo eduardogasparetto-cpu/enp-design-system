@@ -8,18 +8,22 @@ Design System do Ecommerce na Pratica (EnP) empacotado como **Cursor Skill + Rul
 
 | Arquivo | Destino | Funcao |
 |---|---|---|
-| `skill/SKILL.md` | `~/.cursor/skills/enp-design-system/SKILL.md` | Documento de referencia com todos os tokens visuais |
-| `rule/enp-design-system.mdc` | `~/.cursor/rules/enp-design-system.mdc` | Regra que ativa a skill automaticamente e pergunta o estilo |
+| `skill/SKILL.md` | `.cursor/skills/enp-design-system/SKILL.md` | Documento principal com tokens e regras |
+| `skill/semantic-colors.md` | `.cursor/skills/enp-design-system/semantic-colors.md` | Tabelas de cores semanticas WCAG |
+| `skill/component-states.md` | `.cursor/skills/enp-design-system/component-states.md` | Estados de botoes, inputs e overlays |
+| `skill/content-rules.md` | `.cursor/skills/enp-design-system/content-rules.md` | Gradientes, sombras, transicoes, ritmo, tabelas |
+| `skill/wireframes.md` | `.cursor/skills/enp-design-system/wireframes.md` | Catalogo de wireframes para LPs |
+| `skill/migration-guide.md` | `.cursor/skills/enp-design-system/migration-guide.md` | Guia para projetos existentes |
+| `rule/enp-design-system.mdc` | `.cursor/rules/enp-design-system.mdc` | Regra de auto-deteccao |
+| `rule/enp-design-system-apply.mdc` | `.cursor/rules/enp-design-system-apply.mdc` | Regra de aplicacao |
 
 ## Instalacao via chat (recomendada)
 
 Abra o chat do Cursor (**Ctrl + L**) e cole:
 
 ```
-Instale a skill enp-design-system a partir do repositório https://github.com/eduardogasparetto-cpu/enp-design-system — clone o repositório e copie os arquivos: skill/SKILL.md para ~/.cursor/skills/enp-design-system/SKILL.md e rule/enp-design-system.mdc para ~/.cursor/rules/enp-design-system.mdc. Crie as pastas se não existirem.
+Instale a skill enp-design-system a partir do repositorio https://github.com/eduardogasparetto-cpu/enp-design-system — clone o repositorio e copie todos os arquivos da pasta skill/ para .cursor/skills/enp-design-system/ e da pasta rule/ para .cursor/rules/. Crie as pastas se nao existirem.
 ```
-
-Reinicie o Cursor apos a instalacao.
 
 > Veja o guia completo para nao-tecnicos em [INSTALACAO.md](INSTALACAO.md)
 
@@ -41,18 +45,13 @@ cd enp-design-system
 .\install.ps1
 ```
 
-Reinicie o Cursor apos a instalacao.
+## Skill complementar
 
-## Instalacao manual
+Para interfaces de aplicacao (dashboards, paineis, ferramentas), instale tambem o **enp-app-guidelines**:
 
-Se preferir copiar os arquivos na mao:
-
-1. Copie `skill/SKILL.md` para `~/.cursor/skills/enp-design-system/SKILL.md`
-2. Copie `rule/enp-design-system.mdc` para `~/.cursor/rules/enp-design-system.mdc`
-3. Crie as pastas se nao existirem
-4. Reinicie o Cursor
-
-**Windows:** substitua `~` por `%USERPROFILE%` (ex: `C:\Users\SeuNome\.cursor\...`)
+```
+https://github.com/eduardogasparetto-cpu/enp-app-guidelines
+```
 
 ## Como funciona
 
@@ -62,8 +61,6 @@ Apos a instalacao, toda conversa no Cursor que mencione **Ecommerce na Pratica**
 2. Perguntar o que a pessoa quer criar
 3. Perguntar qual **estilo** usar
 4. Aplicar os tokens corretos do estilo escolhido
-
-Isso vale para qualquer entrega — UI, landing pages, emails, apresentacoes, social, documentos, copys e qualquer output visual ou textual da marca.
 
 ### Estilos
 
@@ -78,58 +75,38 @@ Isso vale para qualquer entrega — UI, landing pages, emails, apresentacoes, so
 - Tipografia (familia, escala com 14px Caption/UI, tamanhos responsivos)
 - Paleta de cores (institucional, servicos, extensao, gray scale, tokens de opacidade)
 - 11 gradientes nomeados + regras de quando NAO usar
-- Espacamento, border-radius, sombras
-- Transicoes com mapeamento por componente
-- Botoes (primario, secundario, ghost x 3 estilos x 6 estados)
-- Inputs e formularios (spec + tokens + 3 estilos x 6 estados)
+- Espacamento, border-radius, sombras, transicoes
+- Botoes (primario, secundario, ghost x 3 modos x 6 estados)
+- Inputs e formularios (spec + tokens + 3 modos x 6 estados)
 - Overlay patterns (6 contextos com tokens, blur, z-index)
-- Aspect ratios + tratamento de imagem
-- Breakpoints, grid 12 colunas, z-index
-- Cores semanticas com ratios WCAG calculados para os 3 estilos
-- Ritmo vertical (espacamento heading-conteudo com tokens + referencia CSS copiavel)
+- Cores semanticas com ratios WCAG para os 3 modos
+- Ritmo vertical com tokens e referencia CSS
 - Superficies e separacao visual (backgrounds > borders)
-- **Protocolo de inicializacao conversacional** (§0) — gatilhos, coleta de parametros, regra de bloqueio
-- **Bootstrap CSS por modo** (§15d) — blocos prontos para copiar
-- **Regras negativas por modo** (§15e) — o que NAO fazer em cada modo
-- **Mapeamento componente→token** (§15f) — tabela completa para servicos
-- **Checklist de validacao pos-build** (§22) — cores, tipografia, ritmo, semantica, superficies
-
-## Atualizacao
-
-No chat do Cursor:
-
-```
-Atualize a skill enp-design-system — faça git pull no repositório https://github.com/eduardogasparetto-cpu/enp-design-system e copie os arquivos atualizados para ~/.cursor/skills/ e ~/.cursor/rules/
-```
-
-Ou via terminal:
-
-```bash
-cd enp-design-system
-git pull
-bash install.sh        # Mac/Linux
-.\install.ps1          # Windows
-```
+- Tabelas com sistema de opacidade relativa
+- Logo (5 variantes, selecao automatica por modo)
+- Wireframes (19 categorias para landing pages)
+- Protocolo de inicializacao conversacional
+- Guia de migracao para projetos existentes
+- Checklist de validacao pos-build
 
 ## Versao
 
-- **Skill:** v2.5.0 (2026-03-24)
+- **Skill:** v3.0.0 (2026-03-29)
 - **Base:** Nuvemshop Brand Design Guidelines v1
 
 ### Changelog
 
+**v3.0.0** (2026-03-29)
+- Skill dividida em core + 5 arquivos de referencia para melhor performance
+- Adicionado migration-guide.md para projetos existentes
+- Adicionada referencia cruzada com enp-app-guidelines
+- Core SKILL.md reduzido de 1317 para ~450 linhas
+
 **v2.5.0** (2026-03-24)
-- Adicionado passo de auto-atualizacao no protocolo de inicializacao (§0) — o agente verifica e sincroniza a skill do repositorio versionado antes de qualquer acao
-- Atualizada rule com Step 2 de auto-update antes da coleta de parametros
+- Adicionado passo de auto-atualizacao no protocolo de inicializacao
 
 **v2.4.0** (2026-03-24)
-- Adicionado §0 — Protocolo de inicializacao conversacional com gatilhos, coleta de parametros e regra de bloqueio
-- Adicionado §15d — Bootstrap CSS com blocos prontos por modo cromatico
-- Adicionado §15e — Regras negativas explicitas por modo (o que NAO fazer)
-- Adicionado §15f — Mapeamento componente→token completo para modo servicos
-- Adicionado referencia CSS rapida na §17 (valores prontos para copiar)
-- Adicionado §22 — Checklist de validacao pos-build (cores, tipografia, ritmo, semantica, superficies)
-- Atualizada rule enp-design-system-apply.mdc com protocolo de inicializacao obrigatorio
+- Adicionado protocolo de inicializacao, bootstrap CSS, regras negativas, mapeamento componente-token, checklist
 
 **v2.3.0** (2026-03-26)
 - Tabelas, logo, wireframes
