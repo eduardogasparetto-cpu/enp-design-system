@@ -1,6 +1,6 @@
 ---
 description: "Apply the EnP Design System when the conversation involves visual output for EnP — triggered by words like: EnP, ecommerce na prática, design system, DS, identidade visual, marca, landing page, LP, hero, card, slide, banner, email, componente, seção, institucional, serviços, modo escuro, dark mode, consultoria, escola, blog, plataforma, ferramenta, curso, tokens, cores, tipografia, gradiente, paleta, wireframe, botão, input, formulário."
-alwaysApply: false
+alwaysApply: true
 ---
 
 # EnP Design System — Usage Rules
@@ -65,6 +65,15 @@ After generating or editing visual code, verify:
 6. **Typography scale** — only 12, 14, 16, 18, 22, 30, 42, 58, 70px. Weights: 400 or 600
 7. **Logo version** — matches active chromatic mode (§20)
 8. **Text hierarchy** — exactly 3 levels: heading, body, meta. No invented intermediate tones.
+
+### Component-specific checks (if App Guidelines applies)
+
+9. **Tabs** — underline indicator (border-bottom 2px CTA), NOT pill/chip. Active: CTA color + 600. Inactive: secondary color + 400.
+10. **Buttons** — primary: pill shape (border-radius 100px), CTA bg. Secondary: outline with CTA border. Ghost: no border, underline on hover.
+11. **Cards** — border-radius 16px. No border for separation. box-shadow for elevation.
+12. **DataTable** — zebra with var(--table-zebra). Header: semibold, uppercase, letter-spacing 0.10em. Last row: no bottom border.
+13. **Modals** — z-index 1055. border-radius 16px. Overlay behind.
+14. **Inputs** — border-radius 8px. Focus: border-color transitions to var(--input-focus). Background: var(--bg-input).
 
 ## When to ignore this rule
 
