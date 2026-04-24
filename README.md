@@ -52,6 +52,12 @@ Ou com a flag `--update`:
 bash install.sh --update
 ```
 
+### Alternativa: sincronizar pela sua conta Claude (qualquer dispositivo)
+
+Se você quer que as skills fiquem disponíveis em **qualquer Claude logado na sua conta** (celular, outro computador, claude.ai no navegador), e não só nesta máquina, use os arquivos `.zip` que estão em [`upload-claude-ai/`](./upload-claude-ai/).
+
+O passo a passo de upload fica em [`upload-claude-ai/README.md`](./upload-claude-ai/README.md) — é arrastar 5 arquivos em `claude.ai → Settings → Skills`, sem comando.
+
 ## Como funciona
 
 Toda conversa no Claude Code ou Antigravity que mencione **Ecommerce na Prática**, **EnP**, **DS**, **design system**, **consultoria**, **escola**, **blog**, **modo escuro**, **modo claro** ou **serviços** vai automaticamente:
@@ -71,6 +77,7 @@ enp-design-system/
 ├── CHANGELOG.md
 ├── install.sh
 ├── install.ps1
+├── upload-claude-ai/          # zips prontos pra upload em claude.ai
 └── skills/
     ├── enp-design-system/
     │   ├── SKILL.md
