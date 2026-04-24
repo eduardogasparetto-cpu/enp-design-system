@@ -1,54 +1,95 @@
+#!/usr/bin/env pwsh
+
 $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$SkillDir = Join-Path $ScriptDir "skill"
-$RuleDir = Join-Path $ScriptDir "rule"
+$SkillsDir = Join-Path $ScriptDir "skills"
+
+$Skills = @(
+    "enp-design-system",
+    "enp-app-guidelines",
+    "enp-audit",
+    "enp-polish",
+    "enp-clarify"
+)
 
 Write-Host ""
-Write-Host "=== EnP Design System - Instalador Cursor ===" -ForegroundColor Cyan
+Write-Host "=== EnP Design System - Instalador ==="
 Write-Host ""
 
-if (-not (Test-Path (Join-Path $SkillDir "SKILL.md"))) {
-    Write-Host "Erro: skill\SKILL.md nao encontrado em $ScriptDir" -ForegroundColor Red
+if (-not (Test-Path $SkillsDir)) {
+    Write-Host "Erro: pasta 'skills/' nao encontrada em $ScriptDir" -ForegroundColor Red
     exit 1
 }
 
-Write-Host "Onde deseja instalar?" -ForegroundColor Yellow
-Write-Host "  [1] Todos os projetos  (nivel de usuario - ~/.cursor/)" -ForegroundColor White
-Write-Host "  [2] Apenas este projeto (nivel de projeto - ./.cursor/)" -ForegroundColor White
-Write-Host ""
-
-do {
-    $Choice = Read-Host "Escolha (1 ou 2)"
-} while ($Choice -ne "1" -and $Choice -ne "2")
-
-if ($Choice -eq "1") {
-    $SkillDest = Join-Path $env:USERPROFILE ".cursor\skills\enp-design-system"
-    $RuleDest = Join-Path $env:USERPROFILE ".cursor\rules"
-    $Scope = "usuario (todos os projetos)"
+if ($args -contains "--update") {
+    $Choice = "1"
+    Write-Host "Modo --update: reinstalando para Claude (nivel de usuario)."
+    Write-Host ""
 } else {
-    $SkillDest = Join-Path (Get-Location) ".cursor\skills\enp-design-system"
-    $RuleDest = Join-Path (Get-Location) ".cursor\rules"
-    $Scope = "projeto (apenas este diretorio)"
+    Write-Host "Onde instalar?"
+    Write-Host "  [1] Claude (recomendado)"
+    Write-Host "  [2] Antigravity"
+    Write-Host "  [3] Apenas neste projeto"
+    Write-Host ""
+
+    do {
+        $Choice = Read-Host "Escolha (1, 2 ou 3)"
+    } while ($Choice -notin @("1", "2", "3"))
+}
+
+switch ($Choice) {
+    "1" {
+        $DestRoot = Join-Path $HOME ".claude\skills"
+        $Scope = "Claude (nivel de usuario)"
+    }
+    "2" {
+        $DestRoot = Join-Path $HOME ".gemini\antigravity\skills"
+        $Scope = "Antigravity (nivel de usuario)"
+    }
+    "3" {
+        $DestRoot = ".\.claude\skills"
+        $Scope = "Claude (apenas este projeto)"
+    }
 }
 
 Write-Host ""
-Write-Host "Instalando em nivel de $Scope..." -ForegroundColor Cyan
+Write-Host "Instalando em: $Scope"
+Write-Host "Destino: $DestRoot"
 Write-Host ""
 
-if (-not (Test-Path $SkillDest)) { New-Item -ItemType Directory -Path $SkillDest -Force | Out-Null }
-if (-not (Test-Path $RuleDest)) { New-Item -ItemType Directory -Path $RuleDest -Force | Out-Null }
+New-Item -ItemType Directory -Force -Path $DestRoot | Out-Null
 
-Get-ChildItem -Path $SkillDir -Filter "*.md" | ForEach-Object {
-    Copy-Item -Path $_.FullName -Destination (Join-Path $SkillDest $_.Name) -Force
-    Write-Host "  Skill copiada: $($_.Name)" -ForegroundColor Green
-}
+$Installed = 0
+foreach ($skill in $Skills) {
+    $Src = Join-Path $SkillsDir $skill
+    $Dest = Join-Path $DestRoot $skill
 
-Get-ChildItem -Path $RuleDir -Filter "*.mdc" | ForEach-Object {
-    Copy-Item -Path $_.FullName -Destination (Join-Path $RuleDest $_.Name) -Force
-    Write-Host "  Rule copiada: $($_.Name)" -ForegroundColor Green
+    if (-not (Test-Path $Src)) {
+        Write-Host "  [AVISO] Skill '$skill' nao encontrada - pulando" -ForegroundColor Yellow
+        continue
+    }
+
+    if (Test-Path $Dest) {
+        Remove-Item -Recurse -Force $Dest
+    }
+
+    Copy-Item -Recurse $Src $Dest
+
+    Write-Host "  [ok] $skill" -ForegroundColor Green
+    $Installed++
 }
 
 Write-Host ""
-Write-Host "Instalacao concluida ($Scope). Reinicie o Cursor para ativar." -ForegroundColor Cyan
+Write-Host "Instalacao concluida: $Installed skills em '$Scope'."
+Write-Host ""
+Write-Host "Proximos passos:"
+switch ($Choice) {
+    "1" { Write-Host "  - Reinicie o Claude Code para carregar as skills." }
+    "2" { Write-Host "  - Reinicie o Antigravity para carregar as skills." }
+    "3" { Write-Host "  - As skills agora valem apenas neste diretorio." }
+}
+Write-Host ""
+Write-Host "Para atualizar quando sair nova versao:"
+Write-Host "  cd $(Split-Path -Leaf $ScriptDir); git pull; .\install.ps1"
 Write-Host ""
