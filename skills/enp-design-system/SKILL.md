@@ -520,7 +520,11 @@ O agente DEVE ler esta seção antes de atribuir qualquer cor a qualquer element
 
 ## 16. Ícones
 
-Usar exclusivamente **NimbusIcons**. Documentação: https://nimbus.nuvemshop.com.br/documentation/resources/nimbus-icons
+O padrão do DS EnP é **Lucide** ([lucide.dev](https://lucide.dev)). Vale pra qualquer contexto — HTML puro, apresentações, Vue, Astro, React, etc. Mapeamento semântico completo e regras de uso em `enp-app-guidelines/icons.md`.
+
+Nimbus coexiste dentro do ecossistema Nuvemshop: em qualquer projeto (React ou não) que já consuma `@nimbus-ds/icons`, continuar com Nimbus pra manter consistência com UI existente e evitar retrabalho. Documentação: https://nimbus.nuvemshop.com.br/documentation/resources/nimbus-icons
+
+Navegação e cópia: https://marca.ecommercenapratica.com/icones
 
 ---
 
