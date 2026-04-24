@@ -1,33 +1,22 @@
-# EnP Design System para Cursor
+# EnP Design System
 
-Design System do Ecommerce na Pratica (EnP) empacotado como **Cursor Skill + Rule** para uso automatico em toda conversa que envolva a marca EnP.
+Monorepo do ecossistema de skills do Ecommerce na Prática (EnP) para Claude Code e Google Antigravity.
 
-> **Convencao:** quando o usuario disser "DS", "DS EnP" ou "Design System", esta se referindo a esta skill.
+> **Convenção**: quando o usuário disser "DS", "DS EnP" ou "Design System", está se referindo a este pacote.
 
 ## O que instala
 
-| Arquivo | Destino | Funcao |
+Cinco skills, um ponto de entrada:
+
+| Skill | Versão | Papel |
 |---|---|---|
-| `skill/SKILL.md` | `.cursor/skills/enp-design-system/SKILL.md` | Documento principal com tokens e regras |
-| `skill/semantic-colors.md` | `.cursor/skills/enp-design-system/semantic-colors.md` | Tabelas de cores semanticas WCAG |
-| `skill/component-states.md` | `.cursor/skills/enp-design-system/component-states.md` | Estados de botoes, inputs e overlays |
-| `skill/content-rules.md` | `.cursor/skills/enp-design-system/content-rules.md` | Gradientes, sombras, transicoes, ritmo, tabelas |
-| `skill/wireframes.md` | `.cursor/skills/enp-design-system/wireframes.md` | Catalogo de wireframes para LPs |
-| `skill/migration-guide.md` | `.cursor/skills/enp-design-system/migration-guide.md` | Guia para projetos existentes |
-| `rule/enp-design-system.mdc` | `.cursor/rules/enp-design-system.mdc` | Regra de auto-deteccao |
-| `rule/enp-design-system-apply.mdc` | `.cursor/rules/enp-design-system-apply.mdc` | Regra de aplicacao |
+| `enp-design-system` | 3.1.0 | Tokens visuais, cores (hex + OKLCH), tipografia, espaçamento, motion, layout base |
+| `enp-app-guidelines` | 1.3.0 | Estrutura de aplicações, composição, interaction patterns modernos, UX writing operacional na voz EnP |
+| `enp-audit` | 1.0.0 | Validação pós-hoc técnica e qualitativa contra os tokens EnP |
+| `enp-polish` | 1.0.0 | Finishing pass de alinhamento, spacing e consistência micro |
+| `enp-clarify` | 1.0.0 | Passe de microcopy na voz EnP (60% empático + 40% exigente) |
 
-## Instalacao via chat (recomendada)
-
-Abra o chat do Cursor (**Ctrl + L**) e cole:
-
-```
-Instale a skill enp-design-system a partir do repositorio https://github.com/eduardogasparetto-cpu/enp-design-system — clone o repositorio e copie todos os arquivos da pasta skill/ para .cursor/skills/enp-design-system/ e da pasta rule/ para .cursor/rules/. Crie as pastas se nao existirem.
-```
-
-> Veja o guia completo para nao-tecnicos em [INSTALACAO.md](INSTALACAO.md)
-
-## Instalacao via terminal
+## Instalação
 
 ### Mac / Linux
 
@@ -45,71 +34,75 @@ cd enp-design-system
 .\install.ps1
 ```
 
-## Skill complementar
+O instalador pergunta uma coisa:
 
-Para interfaces de aplicacao (dashboards, paineis, ferramentas), instale tambem o **enp-app-guidelines**:
+- `[1] Claude (recomendado)` - `~/.claude/skills/` nível de usuário
+- `[2] Antigravity` - `~/.gemini/antigravity/skills/` nível de usuário
+- `[3] Apenas neste projeto` - `./.claude/skills/` escopado
 
+### Atualizar
+
+```bash
+cd enp-design-system && git pull && bash install.sh
 ```
-https://github.com/eduardogasparetto-cpu/enp-app-guidelines
+
+Ou com a flag `--update`:
+
+```bash
+bash install.sh --update
 ```
 
 ## Como funciona
 
-Apos a instalacao, toda conversa no Cursor que mencione **Ecommerce na Pratica** ou **EnP** vai automaticamente:
+Toda conversa no Claude Code ou Antigravity que mencione **Ecommerce na Prática**, **EnP**, **DS**, **design system**, **consultoria**, **escola**, **blog**, **modo escuro**, **modo claro** ou **serviços** vai automaticamente:
 
-1. Carregar o Design System EnP como referencia
-2. Perguntar o que a pessoa quer criar
-3. Perguntar qual **estilo** usar
-4. Aplicar os tokens corretos do estilo escolhido
+1. Ativar o `enp-design-system` como fonte de tokens visuais.
+2. Ativar o `enp-app-guidelines` se for aplicação, dashboard ou painel.
+3. Disponibilizar `enp-audit`, `enp-polish` e `enp-clarify` como commands para revisão pós-hoc.
 
-### Estilos
+Skills são ativadas por gatilho semântico. Em projetos não-EnP, ficam dormentes.
 
-| Estilo | Fundo | CTA principal | Quando usar |
-|---|---|---|---|
-| **Institucional claro** | Frost `#F4F7FB` | Button Blue `#1076DD` | Site institucional, LP, blog, escola |
-| **Escuro institucional** | `#212328` | Sky Blue `#31B3F9` | Versoes escuras do site e ferramentas |
-| **Servicos** | Midnight `#0D1B2E` | Lightning Lime `#CDFF07` | Paginas de servico, consultoria, planos |
+## Arquitetura
 
-## O que contem a skill
+```
+enp-design-system/
+├── README.md
+├── INSTALACAO.md
+├── CHANGELOG.md
+├── install.sh
+├── install.ps1
+└── skills/
+    ├── enp-design-system/
+    │   ├── SKILL.md
+    │   ├── semantic-colors.md
+    │   ├── component-states.md
+    │   ├── content-rules.md
+    │   ├── wireframes.md
+    │   └── migration-guide.md
+    ├── enp-app-guidelines/
+    │   ├── SKILL.md
+    │   ├── icons.md
+    │   └── templates.md
+    ├── enp-audit/
+    │   └── SKILL.md
+    ├── enp-polish/
+    │   └── SKILL.md
+    └── enp-clarify/
+        └── SKILL.md
+```
 
-- Tipografia (familia, escala com 14px Caption/UI, tamanhos responsivos)
-- Paleta de cores (institucional, servicos, extensao, gray scale, tokens de opacidade)
-- 11 gradientes nomeados + regras de quando NAO usar
-- Espacamento, border-radius, sombras, transicoes
-- Botoes (primario, secundario, ghost x 3 modos x 6 estados)
-- Inputs e formularios (spec + tokens + 3 modos x 6 estados)
-- Overlay patterns (6 contextos com tokens, blur, z-index)
-- Cores semanticas com ratios WCAG para os 3 modos
-- Ritmo vertical com tokens e referencia CSS
-- Superficies e separacao visual (backgrounds > borders)
-- Tabelas com sistema de opacidade relativa
-- Logo (5 variantes, selecao automatica por modo)
-- Wireframes (19 categorias para landing pages)
-- Protocolo de inicializacao conversacional
-- Guia de migracao para projetos existentes
-- Checklist de validacao pos-build
+## Princípios do pacote
 
-## Versao
+1. **Tokens EnP são fonte da verdade**.
+2. **Voz EnP 60/40 rege todo microcopy**.
+3. **Forward-looking**. Afirma o que EnP é hoje, não combate o que foi.
+4. **Performance, edge cases, motion e acessibilidade são requisitos de build**, não correção pós-hoc.
+5. **Hex continua a linguagem humana da paleta**. OKLCH é a camada técnica.
 
-- **Skill:** v3.0.0 (2026-03-29)
-- **Base:** Nuvemshop Brand Design Guidelines v1
+## Licença
 
-### Changelog
+Design System proprietário do Ecommerce na Prática (EnP), parte do grupo Nuvemshop. Baseado em Nuvemshop Brand Design Guidelines v1.
 
-**v3.0.0** (2026-03-29)
-- Skill dividida em core + 5 arquivos de referencia para melhor performance
-- Adicionado migration-guide.md para projetos existentes
-- Adicionada referencia cruzada com enp-app-guidelines
-- Core SKILL.md reduzido de 1317 para ~450 linhas
+## Contato
 
-**v2.5.0** (2026-03-24)
-- Adicionado passo de auto-atualizacao no protocolo de inicializacao
-
-**v2.4.0** (2026-03-24)
-- Adicionado protocolo de inicializacao, bootstrap CSS, regras negativas, mapeamento componente-token, checklist
-
-**v2.3.0** (2026-03-26)
-- Tabelas, logo, wireframes
-
-**v2.1.0** (2026-03-24)
-- Versao inicial publica
+Eduardo Gasparetto (Edo) - Head de Criação do EnP.
