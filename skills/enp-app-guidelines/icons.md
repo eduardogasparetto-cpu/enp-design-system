@@ -49,7 +49,7 @@ Coluna **Lucide** é o nome canônico. Coluna **Nimbus** é equivalência pra qu
 | Aquisição / Canais | `globe` | `GlobeIcon` |
 | Audiência / Usuários | `users` | `EcosystemIcon` |
 | Temporal / Histórico | `clock` | `ClockIcon` |
-| Benchmarks / Métricas | `bar-chart-3` | `BarChartIcon` |
+| Benchmarks / Métricas | `chart-column-big` | `BarChartIcon` |
 | Relatórios | `clipboard-list` | `InvoiceIcon` |
 | Chat / IA | `message-circle` | `ChatDotsIcon` |
 | Configurações | `settings` | `CogIcon` |
@@ -63,7 +63,7 @@ Coluna **Lucide** é o nome canônico. Coluna **Nimbus** é equivalência pra qu
 | Analisar / Buscar | `search` | `BrowserSearchIcon` |
 | Atualizar | `refresh-cw` | `HistoryIcon` |
 | Download | `download` | `DownloadIcon` |
-| Filtrar | `filter` | `FilterIcon` |
+| Filtrar | `funnel` | `FilterIcon` |
 | Editar | `pencil` | `PencilIcon` |
 | Excluir | `trash-2` | `TrashIcon` |
 | Copiar | `copy` | `CopyIcon` |
@@ -81,11 +81,11 @@ Coluna **Lucide** é o nome canônico. Coluna **Nimbus** é equivalência pra qu
 
 | Função | Lucide | Nimbus |
 |---|---|---|
-| Sucesso | `check-circle` | `CheckCircleIcon` |
-| Erro | `x-circle` | `ExclamationCircleIcon` |
-| Alerta | `alert-triangle` | `ExclamationTriangleIcon` |
+| Sucesso | `circle-check` | `CheckCircleIcon` |
+| Erro | `circle-x` | `ExclamationCircleIcon` |
+| Alerta | `triangle-alert` | `ExclamationTriangleIcon` |
 | Informação | `info` | `InfoCircleIcon` |
-| Loading | `loader-2` (animado) | `SpinnerIcon` |
+| Loading | `loader-circle` (animado) | `SpinnerIcon` |
 | Notificação | `bell` | `NotificationIcon` |
 
 ### Conteúdo
