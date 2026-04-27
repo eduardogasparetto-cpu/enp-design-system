@@ -1,8 +1,10 @@
 name: Slack — Skill atualizada
 
+# Desabilitado em 2026-04-24: o secret SLACK_WEBHOOK_URL nunca foi configurado e o
+# workflow estava acumulando falhas em todo merge. Pra reativar, configurar o secret
+# (Settings → Secrets and variables → Actions) e voltar o trigger pra `push: branches: [main]`.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   notify:

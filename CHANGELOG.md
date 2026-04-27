@@ -4,6 +4,24 @@ Histórico de mudanças do pacote EnP Design System.
 
 ---
 
+## v3.1.1 - 2026-04-24
+
+Pequena release de manutenção em cima da v3.1.0.
+
+### Adições e mudanças
+
+- **Lucide passa a ser o padrão único de ícones do DS EnP** em qualquer contexto (HTML, apresentações, React, Vue, Astro, etc.). Nimbus continua sendo a biblioteca usada dentro do ecossistema Nuvemshop em projetos que já a consomem — coexistência, não fallback.
+- `skills/enp-app-guidelines/icons.md` reescrito: tabelas de mapeamento semântico reordenadas com Lucide na coluna primária e nova seção "Navegação e cópia" apontando pra https://marca.ecommercenapratica.com/icones.
+- `skills/enp-design-system/SKILL.md` §16 atualizado: remove "exclusivamente NimbusIcons" e posiciona Lucide como padrão.
+- Nomes de ícones validados contra a versão atual do Lucide (`circle-check`, `circle-x`, `triangle-alert`, `loader-circle`, `funnel`, `chart-column-big` em vez dos antigos `check-circle`, `x-circle`, etc.).
+- Zips em `upload-claude-ai/enp-design-system.zip` e `upload-claude-ai/enp-app-guidelines.zip` regenerados com o conteúdo novo.
+
+### Manutenção
+
+- Workflow `.github/workflows/slack-notify.yml` desabilitado (trigger trocado para `workflow_dispatch` manual). O secret `SLACK_WEBHOOK_URL` nunca foi configurado e o workflow estava acumulando falhas em cada merge na main.
+
+---
+
 ## v3.1.0 - 2026-04-23
 
 Primeira versão do pacote como monorepo. Absorve `enp-app-guidelines`, adiciona três commands novos, remove suporte a Cursor.
