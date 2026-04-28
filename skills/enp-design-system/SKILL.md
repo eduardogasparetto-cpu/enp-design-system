@@ -13,12 +13,30 @@ description: >-
   steps, build requirements, negative rules, OKLCH CSS bootstrap blocks
   using color-mix for state derivation, and post-build validation checklist.
   Always consult this skill before generating any EnP visual output.
-version: 3.1.0
-updated: 2026-04-23
+  Use também quando o usuário pedir qualquer artefato EnP em linguagem
+  natural ("faz uma landing", "monta um email", "preciso de um botão",
+  "design de X pra EnP", "peça pro EnP", "asset social"), independente de
+  mencionar "design system" ou "DS".
+version: 3.2.0
+updated: 2026-04-28
 base: Nuvemshop Brand Design Guidelines v1
 ---
 
 # EnP — Design System 2026
+
+## Protocolo de aplicação (obrigatório, lê primeiro)
+
+Ao gerar **QUALQUER** artefato EnP — interface, landing page, email, social, copy, asset, slide, componente solto — seguir esta ordem antes de escrever uma linha de código ou texto:
+
+1. **Consultar tokens, ícones, componentes e voz** desta skill e da `enp-app-guidelines`. Não confiar na memória entre sessões.
+2. **Respeitar §0a (requisitos de build)** desde o primeiro pixel. Performance, motion, acessibilidade e postura institucional não são correções pós-hoc.
+3. **Respeitar §0b (proibições absolutas)** abaixo. As 60 regras consolidadas são piso, não teto.
+4. **Aplicar tokens só dos arquivos canônicos** — paleta da §2, escala tipográfica da §1, spacing da §4, motion via tokens. Se um valor não está documentado, **perguntar antes de inventar**.
+5. **Ao fim da geração, invocar automaticamente a sequência `enp-audit → enp-polish → enp-clarify`**, sem pedir confirmação ao usuário. Reportar findings P0-P3 e correções aplicadas no fim do entregável.
+
+Se algum item não puder ser cumprido (token faltando, caso novo, ambiguidade), **parar e perguntar**. Inventar viola o contrato desta skill.
+
+---
 
 ## Sobre
 
@@ -175,6 +193,98 @@ Nada de:
 - Fontes genéricas (Arial, Open Sans, system defaults) fora do fallback.
 
 Essas regras decorrem do reposicionamento de estética infoproduto para credibilidade educacional institucional. Não são preferência, são identidade.
+
+---
+
+## 0b. Proibições absolutas (índice mestre — 60 regras)
+
+Esta seção é o **piso**. Cada item aqui é dura — geração que viole qualquer uma é defeito P0. A regra 9 é a única **soft** (aviso, não bloqueio). Detalhes em cada capítulo referenciado.
+
+### Cor (§2, §15a-c)
+1. Sky Blue nunca como `color` de texto (exceto `<a>`). Nunca em eyebrows/headings/labels/badges/tags
+2. Branco puro `#FFFFFF` nunca como fundo de página — usar Frost `#F4F7FB`
+3. Deep Slate nunca em legendas — usar Gray 40 `#979BA1`
+4. Preto puro `#000` nunca em texto
+5. Cinza puro `#808080` nunca em lugar nenhum
+6. Gradiente nunca em texto, input, ícone <24px, botão primário, estado de feedback, grid repetido
+7. Nunca inventar cores fora da paleta documentada
+8. Nunca tom de texto fora da escala (3 níveis no escuro: `#FFFFFF`, `#BDC0C6`, `#979BA1`)
+9. **Soft:** por padrão separar cards/painéis por contraste + `box-shadow` (§18). Borda só sob pedido explícito do usuário, com aviso "padrão EnP é separação por contraste — aplicando borda conforme solicitado". Sem bloquear.
+
+### Tipografia (§1)
+10. **Plus Jakarta Sans é a tipografia oficial** em todo artefato EnP. Nenhuma outra família protagonista. Fallback CSS (sans-serif, system-ui) só pra fallback, nunca protagonista
+11. Font-size nunca fora da escala: 12, 14, 16, 18, 22, 30, 42, 58, 70px
+12. Font-weight só 400 e 600 — nunca 300/500/700
+13. Sem itálico — ênfase por peso, nunca inclinação
+
+### Spacing (§4)
+14. 40px exclusivo de padding INTERNO de card — nunca margin/padding estrutural
+15. Nunca inventar valor de spacing fora da §4
+
+### Motion (`content-rules.md` + §0a)
+16. Animar só `transform` e `opacity` — nunca `width`, `height`, `padding`, `margin`, `top`, `left`
+17. Entrada de modal/drawer nunca via `top`
+18. Stagger nunca passa 500ms total
+19. Optimistic UI nunca em pagamentos ou ações destrutivas
+20. Bounce/elastic banidos
+
+### Ícones (§16, `enp-app-guidelines/icons.md`)
+21. Ícones monocromáticos — cor por token semântico, nunca cor fixa
+22. Ícone de biblioteca fora de Lucide/Nimbus nunca sem mapear primeiro em `icons.md`
+23. Componentes Nimbus nunca, a menos que projeto seja React + Nuvemshop
+24. **Lucide é o catálogo aberto.** Função semântica nova surgida em criação → escolher ícone Lucide e adicionar ao `icons.md` no mesmo PR
+
+### Componentes / estrutura (`enp-app-guidelines`)
+25. Tabs: nunca `border-radius`; nunca background colorido em ativa; nunca weight 500/700
+26. Form: label sempre acima do input. **Nunca usar placeholder** — nem como label, nem como exemplo
+27. Dropdown: nunca `position:absolute` dentro de `overflow:hidden`
+28. Breadcrumb nunca omitido na top bar
+29. Layouts nunca fora dos templates sem justificativa
+30. Anel de foco nunca suprimido sem substituto `:focus-visible`
+31. Hover nunca como única forma de interação (toque não tem hover)
+32. Texto i18n nunca em dimensão fixa
+33. Indicador lateral 3px banido — só 1px funcional, nunca como ornamento
+
+### Voz / microcopy (`enp-clarify`, `app-guidelines` §15)
+34. Erros nunca culpam o usuário
+35. Botões nunca "Sim/Não"/"OK/Cancelar" — sempre verbo + objeto
+36. Modal: secundário nunca é "Cancelar" — sempre ação reversa nomeada ("Manter projeto")
+37. Loading nunca "Carregando..." genérico
+38. Card nunca em Title Case (sentence case)
+39. Skip link nunca "Clique aqui" genérico
+40. Banidos: "passo a passo", "metodologia estruturada", "aplicável", urgência artificial
+41. Nunca contrastar com "antigo EnP"/"mercado de cursos" (forward-looking)
+
+### Identidade visual (§20)
+42. Logo nunca distorcer, alterar cor, adicionar efeito, rotacionar
+43. Logo colorido nunca sobre fundo escuro
+44. Polish nunca muda identidade (Button Blue continua Button Blue)
+
+### Wireframes (`wireframes.md`)
+45. HTML de wireframe nunca copiado cru — sempre convertido pro framework do projeto
+
+### Acessibilidade (§0a + `enp-audit`)
+46. **Texto informativo:** contraste normal nunca abaixo de 4.5:1 (WCAG AA)
+47. **Texto informativo grande** (≥18pt ou ≥14pt bold): nunca abaixo de 3:1. **Texto puramente decorativo** (background type, watermark, ornamento) **isento** desde que (a) marcado `aria-hidden="true"`, (b) não interativo, (c) informação equivalente disponível em texto com contraste adequado
+48. Touch target nunca menor que 44×44px em qualquer elemento interativo
+49. Animação nunca sem respeitar `prefers-reduced-motion`
+50. Imagem nunca sem `alt` (decorativa = `alt=""`, conteúdo = descritivo)
+51. Botão só com ícone nunca sem `aria-label`
+52. Modal nunca sem focus trap e nunca sem fechar no `Esc` (usar `<dialog>` nativo + `inert` no `<main>`)
+
+### Estrutural extra (`app-guidelines` §11)
+53. Lista vazia nunca sem empty state em 3 beats (reconhecer + valor + ação)
+54. Confirmação destrutiva nunca sem oferecer Undo primeiro. Modal de confirmação só pra ações genuinamente irreversíveis
+55. Loading nunca genérico — variante por contexto: botão = spinner interno; página = skeleton; operação = spinner+texto; global = overlay (só se necessário)
+56. `<button>` nunca sem `type` explícito (`button` / `submit` / `reset`)
+
+### Identidade verbal
+57. **"Ecommerce na Prática"** sempre por extenso, exato. Nunca "Ecomm.", "E-commerce" (com hífen), "Ecommerce & Prática", "ENP" em texto corrido
+58. Sigla "EnP" só em contexto técnico interno (skill, repo, doc dev). Nunca em UI pro usuário final, copy de marketing, ou comunicação pública
+
+### Imagem / asset
+59. Foto/ilustração em produção nunca em formato não-otimizado — sempre `webp`/`avif` com fallback via `<picture>`. PNG/JPG cru só em rascunho
+60. Logo nunca em PNG/JPG quando SVG disponível
 
 ---
 
