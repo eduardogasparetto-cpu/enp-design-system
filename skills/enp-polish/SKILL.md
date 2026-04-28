@@ -7,9 +7,11 @@ description: >-
   Diferente do enp-audit (que aponta problemas), este aplica correções.
   Triggers: "polish", "polir", "ajustes finais", "pre-launch review", "algo
   está estranho", "fica quase bom mas", "finishing pass", "ajustar
-  micro-detalhes", "consistência", "antes de entregar".
-version: 1.0.0
-updated: 2026-04-23
+  micro-detalhes", "consistência", "antes de entregar". Disparado
+  automaticamente ao final de qualquer geração via enp-design-system ou
+  enp-app-guidelines, na sequência audit → polish → clarify.
+version: 3.2.0
+updated: 2026-04-28
 requires: [enp-design-system, enp-app-guidelines]
 ---
 

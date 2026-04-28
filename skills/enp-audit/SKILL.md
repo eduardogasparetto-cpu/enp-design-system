@@ -9,8 +9,10 @@ description: >-
   "check antes de shippar", ou quando quiser relatório P0-P3 de violações.
   Não substitui o DS, valida contra ele. Triggers: "audit", "auditar",
   "validar", "revisar DS", "checar tokens", "antes de shippar", "pre-flight".
-version: 1.0.0
-updated: 2026-04-23
+  Disparado automaticamente ao final de qualquer geração via enp-design-system
+  ou enp-app-guidelines, sem pedido explícito do usuário.
+version: 3.2.0
+updated: 2026-04-28
 requires: [enp-design-system, enp-app-guidelines]
 ---
 
