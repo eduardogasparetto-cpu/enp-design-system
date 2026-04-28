@@ -1,0 +1,162 @@
+{
+  "version": "3.2.0",
+  "updated": "2026-04-28",
+  "source": "skills/enp-app-guidelines/SKILL.md",
+  "components": {
+    "AppShell": {
+      "section": "§2",
+      "anatomy": ["Sidebar fixa 240px", "Top Bar (breadcrumb + ações)", "Page Header (título + ações)", "Page Body"],
+      "proportions": { "sidebar_width_px": 240, "content_width": "calc(100% - 240px)" },
+      "skip_link_required": true,
+      "skip_link_copy": "Pular para o conteúdo"
+    },
+    "Sidebar": {
+      "section": "§3",
+      "anatomy": ["Brand", "Nav items", "Group labels (uppercase)", "Spacer", "User info no rodapé"],
+      "nav_item": {
+        "icon_size_px": 18,
+        "active_indicator": "Borda esquerda 1px na cor de accent + background sutil"
+      },
+      "mobile_breakpoint_collapse": "md (768px)",
+      "mobile_pattern": "drawer com overlay"
+    },
+    "Page": {
+      "section": "§4",
+      "layers": ["Top Bar", "Page Header", "Page Body"]
+    },
+    "Card": {
+      "section": "§5",
+      "variants": ["Simples", "Com header", "Com footer", "Com tabs", "Completo"],
+      "rules": [
+        "Separação por contraste de superfície, não por borda (default)",
+        "Border radius Large (16px)",
+        "Overflow hidden",
+        "Cards interativos ganham :focus-visible com anel da cor de accent"
+      ],
+      "border_soft_rule": "Por padrão sem borda. Se o usuário pedir borda explicitamente, executar com aviso 'padrão EnP é separação por contraste — aplicando borda conforme solicitado'."
+    },
+    "Tabs": {
+      "section": "§6",
+      "specs": {
+        "indicator": "border-bottom 2px na cor de CTA",
+        "active_weight": 600,
+        "inactive_weight": 400,
+        "active_color_token": "accent",
+        "inactive_color_token": "text-meta"
+      },
+      "forbidden": [
+        "border-radius em tabs (base deve ser reta)",
+        "background colorido em tab ativa",
+        "font-weight diferente de 400/600"
+      ],
+      "keyboard": "roving tabindex (setas navegam dentro do grupo, Tab entra/sai)"
+    },
+    "MetricsGrid": {
+      "section": "§7",
+      "columns": { "desktop": "4 ou 3", "tablet": 2, "mobile": 1 }
+    },
+    "FormField": {
+      "section": "§8",
+      "label_pattern": "label sempre acima do input",
+      "placeholder_policy": "NÃO usar placeholder — nem como label, nem como exemplo",
+      "validation": "no blur, não a cada tecla",
+      "error_formula": "o que aconteceu + por que + como resolver",
+      "error_aria": ["aria-invalid='true'", "aria-describedby apontando para o id da mensagem"],
+      "states": ["default", "hover", "focus-visible", "active", "disabled", "loading", "error", "success"]
+    },
+    "SplitLayout": {
+      "section": "§9",
+      "ratios": { "config_resultado": "1fr / 1.4fr", "form_preview": "1fr / 1fr" },
+      "mobile": "stack vertical, config em cima"
+    },
+    "DataTable": {
+      "section": "§10",
+      "header_diff_by": "peso (semibold) e cor, não tamanho",
+      "last_row_no_divider": true,
+      "actions_align": "direita",
+      "mobile": "scroll horizontal"
+    },
+    "Toast": {
+      "position": "topo direito",
+      "auto_dismiss_ms": 3000,
+      "anatomy": "ícone + mensagem + fechar"
+    },
+    "Modal": {
+      "section": "§11",
+      "implementation": "<dialog> nativo com showModal()",
+      "isolation": "inert no <main> enquanto aberto",
+      "focus_trap_required": true,
+      "esc_close_required": true,
+      "max_width_px": 480,
+      "wide_max_width_px": 640,
+      "border_radius_px": 16,
+      "z_index": 1055,
+      "overlay_opacity": 0.7
+    },
+    "ConfirmationModal": {
+      "section": "§11",
+      "button_naming": "verbo + objeto, nunca 'Sim/Não' ou 'OK/Cancelar'",
+      "secondary_button": "ação reversa nomeada (ex.: 'Manter projeto'), nunca 'Cancelar'",
+      "prefer_undo": "Toast 'Item removido [Desfazer]' por 5s é melhor que modal. Modal só para ações genuinamente irreversíveis."
+    },
+    "EmptyState": {
+      "section": "§11",
+      "required_in": "toda lista, grid ou coleção",
+      "structure": ["Reconhecer o estado", "Dar contexto/valor", "Oferecer ação"],
+      "forbidden_copy": ["'Nada aqui!'", "'Sem resultados'", "'Oops!'", "qualquer humor sem função", "qualquer culpabilização"]
+    },
+    "Loading": {
+      "section": "§11",
+      "by_context": {
+        "button": "spinner interno, texto oculto",
+        "page_section": "skeleton shimmer",
+        "operation_identifiable": "spinner + texto específico",
+        "operation_long": "progresso + expectativa de tempo",
+        "global": "overlay sólido + spinner (só se necessário)"
+      },
+      "forbidden_copy": ["'Carregando...' genérico"]
+    },
+    "Popover": {
+      "section": "§11.5",
+      "implementation": "Popover API + CSS Anchor Positioning",
+      "browser_support": "Chrome/Edge 125+. Firefox/Safari sem suporte (abril 2026).",
+      "fallback": "JS com getBoundingClientRect() + position: fixed",
+      "forbidden": "position: absolute dentro de overflow: hidden ou overflow: auto"
+    }
+  },
+  "templates": [
+    { "name": "Dashboard", "use": "Visão geral com KPIs + gráficos" },
+    { "name": "Análise", "use": "Split layout com config + resultado IA" },
+    { "name": "Configurações", "use": "Cards de grupo com FormFields" },
+    { "name": "Formulário", "use": "Criação/edição com validação" },
+    { "name": "Lista simples", "use": "DataTable com busca/filtros" },
+    { "name": "Lista rica", "use": "DataTable com thumbnails + métricas" },
+    { "name": "Relatórios", "use": "Config + lista de outputs gerados" },
+    { "name": "Onboarding", "use": "Centralizado, sem top bar" }
+  ],
+  "responsive_rules": {
+    "collapse": [
+      { "below_breakpoint": "lg (1024px)", "change": "Grid de métricas: 4 → 2 colunas" },
+      { "below_breakpoint": "md (768px)", "change": "Sidebar → drawer; Split → stack vertical; DataTable → scroll horizontal" },
+      { "below_breakpoint": "sm (480px)", "change": "Grid de métricas: 2 → 1 coluna; Tabs → scroll horizontal" }
+    ],
+    "container_queries_for": ["Card em sidebar vs main", "KPI reutilizável", "componente que não sabe onde será instanciado"],
+    "viewport_queries_for": ["layout macro de página"],
+    "pointer_queries": "nunca depender exclusivamente de hover (toque não tem hover)",
+    "safe_area": "padding via env(safe-area-inset-*)"
+  },
+  "accessibility": {
+    "wcag_level": "AA",
+    "contrast_min_normal": 4.5,
+    "contrast_min_large": 3.0,
+    "decorative_text_exception": "Texto puramente decorativo (background, watermark, ornamento) isento desde que aria-hidden='true', não interativo, e info equivalente exista visível com contraste adequado",
+    "touch_target_min_px": 44,
+    "focus_visible_required": true,
+    "image_alt_required": true,
+    "icon_button_aria_label_required": true,
+    "modal_focus_trap_required": true,
+    "modal_esc_close_required": true,
+    "prefers_reduced_motion_required": true,
+    "button_type_explicit_required": true
+  }
+}
