@@ -12,11 +12,29 @@ description: >-
   (button labels, error messages, empty states, loading, confirmation).
   Does NOT contain colors or visual tokens — those come from enp-design-system.
   Always use this skill together with enp-design-system when building EnP apps.
-version: 1.3.0
-updated: 2026-04-23
+  Use também quando o usuário perguntar qual ícone usar pra qualquer função
+  semântica (status, sucesso, erro, alerta, navegação, ação, loading), ou
+  quando pedir wireframe/estrutura de qualquer interface EnP, mesmo sem
+  mencionar "app guidelines" ou "DS".
+version: 3.2.0
+updated: 2026-04-28
 ---
 
 # EnP — App & Interface Guidelines
+
+## Protocolo de aplicação (obrigatório, lê primeiro)
+
+Ao construir qualquer interface EnP, antes de escrever código:
+
+1. **Carregar ambas as skills** — esta + `enp-design-system`. Cores, tokens e regras visuais vêm de lá.
+2. **Consultar `icons.md`** pro mapeamento semântico canônico de ícones. A tabela aqui vence qualquer outra fonte (incluindo o site `marca.ecommercenapratica.com/icones`, que é browse, não autoridade).
+3. **Respeitar §0b "Proibições absolutas"** do `enp-design-system/SKILL.md` — 60 regras consolidadas (cor, tipografia, spacing, motion, ícones, componentes, voz, acessibilidade, identidade).
+4. **Aplicar templates da §13** quando for página inteira. Layouts fora dos templates só com justificativa.
+5. **Ao fim da geração, invocar automaticamente `enp-audit → enp-polish → enp-clarify`** sem pedir confirmação. Reportar findings P0-P3 no fim do entregável.
+
+Se algum item ficar ambíguo (componente novo, caso fora do template, dúvida de acessibilidade), **parar e perguntar**.
+
+---
 
 ## 1. Sobre e escopo
 

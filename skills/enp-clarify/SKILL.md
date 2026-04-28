@@ -7,9 +7,11 @@ description: >-
   CTAs com vocabulário concreto, sem "passo a passo", sem "metodologia
   estruturada", sem urgência artificial. Triggers: "clarify", "melhorar copy",
   "revisar texto", "voz EnP", "deixar mais EnP", "copy confusa", "microcopy",
-  "mensagens da interface", "labels", "CTA fraco", "erro genérico".
-version: 1.0.0
-updated: 2026-04-23
+  "mensagens da interface", "labels", "CTA fraco", "erro genérico". Disparado
+  automaticamente ao final de qualquer geração via enp-design-system ou
+  enp-app-guidelines, como último passo da sequência audit → polish → clarify.
+version: 3.2.0
+updated: 2026-04-28
 requires: [enp-design-system, enp-app-guidelines]
 ---
 

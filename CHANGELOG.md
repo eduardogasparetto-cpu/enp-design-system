@@ -4,6 +4,63 @@ Histórico de mudanças do pacote EnP Design System.
 
 ---
 
+## v3.2.0 - 2026-04-28
+
+Release de autoridade. Skill deixa de ser descritiva e passa a ser **prescritiva e auto-aplicável**: chamada em linguagem natural → aplicação automática de tokens, regras e voz, com auto-chain de validação no fim.
+
+### Por que esta release
+
+Dois problemas estruturais convergiram:
+
+1. **Drift entre fontes paralelas.** A skill (autoridade canônica) e o site `marca.ecommercenapratica.com` (vitrine pública) eram mantidos em mãos. Já driftaram — a categoria "Status e feedback" no `icons.md` da skill (`circle-check`, `circle-x`, `triangle-alert`, `info`, `loader-circle`, `bell`) não batia com a categoria de mesmo nome em `enp-marca/src/lib/lucide-icons.ts` (`chart-line`, `thumbs-up`, `thumbs-down`, `megaphone`, `bell`). Pra qualquer agente ou humano consultando, ambiguidade.
+
+2. **Skill descritiva, não prescritiva.** Pedir "faz uma landing pra EnP" dependia do agente lembrar de carregar a skill, consultar tokens, evitar regras negativas. Muita coisa caía em prompt do usuário ou revisão pós-hoc manual.
+
+A v3.2.0 resolve os dois com mudança estrutural: dados machine-readable em `data/`, protocolo de aplicação obrigatório no topo das duas skills principais, 60 regras consolidadas em `§0b "Proibições absolutas"`, auto-chain `audit → polish → clarify` no fim de toda geração e header de autoridade no `icons.md` resolvendo a colisão.
+
+### Adicionado
+
+- **Pasta `data/` (raiz, não instalada nos usuários)** — exportação machine-readable da skill em 4 JSONs:
+  - `data/tokens.json` — paleta hex+OKLCH dos 3 modos cromáticos, escala tipográfica, spacing, radius, breakpoints, z-index, motion, logo
+  - `data/icons.json` — mapeamento semântico Lucide ↔ Nimbus organizado em 4 categorias (navigation, actions, status_feedback, content) + regras
+  - `data/components.json` — anatomia, variantes e estados de AppShell, Sidebar, Page, Card, Tabs, MetricsGrid, FormField, SplitLayout, DataTable, Toast, Modal, ConfirmationModal, EmptyState, Loading, Popover + acessibilidade
+  - `data/voice.json` — voz EnP 60/40, vocabulário, fórmula de erro, empty state em 3 beats, regras de naming da marca
+  - `data/README.md` — explica derivação, manutenção em paralelo ao markdown e consumo via `raw.githubusercontent.com`
+
+- **Seção "Protocolo de aplicação (obrigatório, lê primeiro)"** no topo de `enp-design-system/SKILL.md` e `enp-app-guidelines/SKILL.md` — mandato pré-hoc: consultar tokens antes de gerar, respeitar §0a/§0b, perguntar se o caso não estiver mapeado, invocar audit → polish → clarify automaticamente no fim.
+
+- **§0b "Proibições absolutas"** em `enp-design-system/SKILL.md` — índice mestre com **60 regras consolidadas** organizadas por domínio (cor, tipografia, spacing, motion, ícones, componentes, voz, identidade, wireframes, acessibilidade, estrutural extra, identidade verbal, imagem). Cada regra é dura, exceto a regra 9 (separação de cards por borda) que é **soft** — avisa, não bloqueia.
+
+### Mudado
+
+- **Triggers do `description` ampliados** em todas as 5 skills:
+  - `enp-design-system` agora dispara em pedidos soltos como "faz uma landing", "monta um email", "preciso de um botão", sem precisar mencionar "DS" ou "design system"
+  - `enp-app-guidelines` dispara em perguntas semânticas de ícone ("qual ícone uso pra erro?") e pedidos de wireframe/estrutura de interface
+  - `enp-audit`, `enp-polish`, `enp-clarify` documentam o auto-disparo no fim de qualquer geração
+
+- **Versão de todos os 5 SKILL.md unificada em 3.2.0** — passa a ser a versão do **pacote** (era 3.1.1 no `enp-design-system` e 1.0.0/1.3.0 nos demais)
+
+- **Header de autoridade no `enp-app-guidelines/icons.md`** — declara que a tabela do skill é fonte canônica pra escolha semântica e que o catálogo visual em `marca.ecommercenapratica.com/icones` serve só pra browse e cópia de SVG. Em colisão, a skill vence
+
+- **Tipografia oficial reafirmada como Plus Jakarta Sans** (regra 10 do §0b) — única família protagonista. Sem Inter, sem system-ui como protagonista. Fallback CSS continua válido pra fallback
+
+### Auto-chain pós-geração (novo comportamento)
+
+A partir desta release, qualquer geração via `enp-design-system` ou `enp-app-guidelines` invoca automaticamente, sem confirmação do usuário:
+
+1. `enp-audit` — relatório P0-P3 de violações
+2. `enp-polish` — finishing pass de alinhamento e consistência
+3. `enp-clarify` — passe de microcopy na voz EnP
+
+Findings + correções aplicadas aparecem no fim do entregável.
+
+### Próximas releases previstas
+
+- **`enp-marca` v2.x** (consumir `data/*.json` via fetch, eliminar a colisão "Status e feedback", adicionar páginas `/cores`, `/tipografia`, `/voz`, `/componentes` espelhando a skill)
+- **`enp-design-system` v3.3.0** (script de geração JSON ← markdown + CI check de coerência)
+
+---
+
 ## v3.1.1 - 2026-04-24
 
 Pequena release de manutenção em cima da v3.1.0.

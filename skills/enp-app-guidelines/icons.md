@@ -2,6 +2,14 @@
 
 > Arquivo de referência do `enp-app-guidelines`. Consulte o `SKILL.md` principal para regras de uso.
 
+## Autoridade
+
+**Esta tabela é a fonte da verdade pra escolha semântica de ícone no DS EnP.**
+
+O catálogo visual em `https://marca.ecommercenapratica.com/icones` serve pra **browse e cópia de SVG**, não pra decisão semântica. Se um nome de categoria coincidir entre os dois (ex.: "Status e feedback") com conteúdos diferentes, **esta tabela vence**.
+
+A versão machine-readable equivalente (consumida pelo site no futuro) vive em `data/icons.json` na raiz do repo.
+
 ---
 
 ## Biblioteca padrão
