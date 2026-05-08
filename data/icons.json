@@ -1,0 +1,99 @@
+{
+  "version": "3.2.0",
+  "updated": "2026-04-28",
+  "source": "skills/enp-app-guidelines/icons.md",
+  "primary_library": "lucide",
+  "primary_url": "https://lucide.dev",
+  "fetch_base_url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons",
+  "coexisting_library": {
+    "name": "nimbus",
+    "package": "@nimbus-ds/icons",
+    "scope": "Projetos dentro do ecossistema Nuvemshop que já consomem Nimbus",
+    "is_fallback": false,
+    "url": "https://nimbus.nuvemshop.com.br/documentation/resources/nimbus-icons"
+  },
+  "browse_url": "https://marca.ecommercenapratica.com/icones",
+  "sizes": {
+    "small_px": 16,
+    "medium_px": 20,
+    "large_px": 24,
+    "icon_button_min_touch_px": 44
+  },
+  "categories": {
+    "navigation": {
+      "label": "Navegação",
+      "icons": [
+        { "function": "Home / Dashboard", "lucide": "house", "nimbus": "HomeIcon" },
+        { "function": "Monitor", "lucide": "monitor", "nimbus": "DesktopIcon" },
+        { "function": "Páginas", "lucide": "file-text", "nimbus": "FileIcon" },
+        { "function": "Aquisição / Canais", "lucide": "globe", "nimbus": "GlobeIcon" },
+        { "function": "Audiência / Usuários", "lucide": "users", "nimbus": "EcosystemIcon" },
+        { "function": "Temporal / Histórico", "lucide": "clock", "nimbus": "ClockIcon" },
+        { "function": "Benchmarks / Métricas", "lucide": "chart-column-big", "nimbus": "BarChartIcon" },
+        { "function": "Relatórios", "lucide": "clipboard-list", "nimbus": "InvoiceIcon" },
+        { "function": "Chat / IA", "lucide": "message-circle", "nimbus": "ChatDotsIcon" },
+        { "function": "Configurações", "lucide": "settings", "nimbus": "CogIcon" },
+        { "function": "Loja online", "lucide": "store", "nimbus": "OnlineStoreIcon" },
+        { "function": "Apps", "lucide": "layout-grid", "nimbus": "AppsIcon" }
+      ]
+    },
+    "actions": {
+      "label": "Ações",
+      "icons": [
+        { "function": "Analisar / Buscar", "lucide": "search", "nimbus": "BrowserSearchIcon" },
+        { "function": "Atualizar", "lucide": "refresh-cw", "nimbus": "HistoryIcon" },
+        { "function": "Download", "lucide": "download", "nimbus": "DownloadIcon" },
+        { "function": "Filtrar", "lucide": "funnel", "nimbus": "FilterIcon" },
+        { "function": "Editar", "lucide": "pencil", "nimbus": "PencilIcon" },
+        { "function": "Excluir", "lucide": "trash-2", "nimbus": "TrashIcon" },
+        { "function": "Copiar", "lucide": "copy", "nimbus": "CopyIcon" },
+        { "function": "Link externo", "lucide": "external-link", "nimbus": "ExternalLinkIcon" },
+        { "function": "Adicionar", "lucide": "plus", "nimbus": "PlusIcon" },
+        { "function": "Fechar", "lucide": "x", "nimbus": "CloseIcon" },
+        { "function": "Menu hamburger", "lucide": "menu", "nimbus": "MenuIcon" },
+        { "function": "Expandir/Colapsar", "lucide": "chevron-down", "nimbus": "ChevronDownIcon" },
+        { "function": "Navegar (breadcrumb)", "lucide": "chevron-right", "nimbus": "ChevronRightIcon" },
+        { "function": "Arrastar", "lucide": "grip-vertical", "nimbus": "DragDotsIcon" },
+        { "function": "Visualizar", "lucide": "eye", "nimbus": "EyeIcon" },
+        { "function": "Ocultar", "lucide": "eye-off", "nimbus": "EyeOffIcon" }
+      ]
+    },
+    "status_feedback": {
+      "label": "Status e feedback",
+      "authoritative": true,
+      "icons": [
+        { "function": "Sucesso", "lucide": "circle-check", "nimbus": "CheckCircleIcon" },
+        { "function": "Erro", "lucide": "circle-x", "nimbus": "ExclamationCircleIcon" },
+        { "function": "Alerta", "lucide": "triangle-alert", "nimbus": "ExclamationTriangleIcon" },
+        { "function": "Informação", "lucide": "info", "nimbus": "InfoCircleIcon" },
+        { "function": "Loading", "lucide": "loader-circle", "nimbus": "SpinnerIcon", "animated": true },
+        { "function": "Notificação", "lucide": "bell", "nimbus": "NotificationIcon" }
+      ]
+    },
+    "content": {
+      "label": "Conteúdo",
+      "icons": [
+        { "function": "Calendário", "lucide": "calendar", "nimbus": "CalendarIcon" },
+        { "function": "Imagem", "lucide": "image", "nimbus": "PictureIcon" },
+        { "function": "Código", "lucide": "code", "nimbus": "CodeIcon" },
+        { "function": "E-mail", "lucide": "mail", "nimbus": "MailIcon" },
+        { "function": "Dinheiro / Receita", "lucide": "dollar-sign", "nimbus": "MoneyIcon" },
+        { "function": "Cartão de crédito", "lucide": "credit-card", "nimbus": "CreditCardIcon" },
+        { "function": "Desconto", "lucide": "percent", "nimbus": "DiscountCircleIcon" },
+        { "function": "Presente / Oferta", "lucide": "gift", "nimbus": "GiftBoxIcon" },
+        { "function": "Segurança / Lock", "lucide": "lock", "nimbus": "LockIcon" },
+        { "function": "Usuário", "lucide": "user", "nimbus": "IdCardIcon" },
+        { "function": "Logout", "lucide": "log-out", "nimbus": "LogOutIcon" }
+      ]
+    }
+  },
+  "rules": [
+    "Ícones são monocromáticos — cor via token semântico do DS, nunca cor fixa",
+    "Sem container decorativo por padrão (sem div com background atrás do ícone)",
+    "Em botões com ícone: ícone à esquerda do texto, gap 8px",
+    "Ícone sozinho (icon-button): área de toque mínima 44x44px",
+    "Função semântica nova → escolher ícone Lucide e adicionar ao icons.md no mesmo PR",
+    "Se o projeto já consome Nimbus dentro do ecossistema Nuvemshop, continuar com Nimbus para manter consistência"
+  ],
+  "authority_note": "Esta é a fonte canônica do mapeamento semântico. O catálogo visual em https://marca.ecommercenapratica.com/icones serve para browse e cópia de SVG, não para decisão semântica. Em caso de colisão, este JSON vence."
+}

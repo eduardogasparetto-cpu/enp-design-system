@@ -71,7 +71,7 @@ box-shadow:
 
 ---
 
-## Transições
+## Transições e motion
 
 ### Curvas e durações
 
@@ -89,19 +89,94 @@ box-shadow:
 
 | Componente | Propriedade | Duração | Curva |
 |---|---|---|---|
-| Botão | `all` | 0.15s | `ease-in-out` |
+| Botão | `transform, opacity, background-color` | 0.15s | `ease-in-out` |
 | Input focus | `border-color, box-shadow` | 0.2s | `ease` |
 | Card hover | `transform, box-shadow` | 0.3s | `ease-out` |
 | Modal entrada | `opacity, transform` | 0.3s | Ease Out Expo |
-| Modal saída | `opacity, transform` | 0.2s | `ease-in` |
+| Modal saída | `opacity, transform` | 0.22s | `ease-in` (75% do enter) |
 | Toast entrada | `opacity, transform` | 0.3s | Ease Out Expo |
-| Toast saída | `opacity` | 0.2s | `ease-in` |
+| Toast saída | `opacity` | 0.22s | `ease-in` (75% do enter) |
 | Drawer | `transform` | 0.3s | Ease Out Expo |
 | Tooltip | `opacity` | 0.15s | `ease` |
-| Collapse | `height, opacity` | 0.3s | Ease Out Expo |
+| Collapse | `grid-template-rows` (0fr → 1fr) + `opacity` | 0.3s | Ease Out Expo |
 | Skeleton shimmer | `background-position` | 1.5s | `linear` · loop infinito |
 | Splash fill (marca) | `clip-path` | 2s | `ease-in-out` · preenchimento bottom→top |
 | Splash fade-out | `opacity` | 0.3s | Ease Out Expo · após fill completo |
+
+### Regras de motion (obrigatórias desde o primeiro draft)
+
+Estas regras valem para toda animação EnP. Violação é bug, não preferência.
+
+**1. Animar apenas `transform` e `opacity`.** Outras propriedades (`width`, `height`, `padding`, `margin`, `top`, `left`) disparam layout ou paint e destroem performance. `background-color` é aceitável em transições curtas de botão.
+
+**Collapse/Acordeão** - em vez de animar `height`, usar `grid-template-rows: 0fr → 1fr`:
+
+```css
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.collapse.is-open { grid-template-rows: 1fr; }
+.collapse > div { overflow: hidden; }
+```
+
+**Entrada de modal/drawer** - `transform: translateY(10px)` + `opacity: 0` inicial, `transform: translateY(0)` + `opacity: 1` final. Nunca `top`.
+
+**2. `prefers-reduced-motion` é obrigatório.**
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+Abordagem refinada (crossfade no lugar de deslocamento):
+
+```css
+.modal { animation: slide-up 0.3s cubic-bezier(0.19, 1, 0.22, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .modal { animation: fade-in 0.2s ease-out; }
+}
+```
+
+**3. Proibição de `bounce` e `elastic`.** Soam datados e destoam da postura institucional. Objetos reais desaceleram suavemente.
+
+**4. Exits = 75% do enter.** Se o modal entra em 0.3s, sai em 0.22s. Entrada estabelece presença, saída é remoção.
+
+### Padrões de motion
+
+**Stagger via CSS custom properties.**
+
+```html
+<div class="grid" style="--stagger: 50ms;">
+  <article class="card" style="--i: 0;">...</article>
+  <article class="card" style="--i: 1;">...</article>
+  <article class="card" style="--i: 2;">...</article>
+</div>
+```
+
+```css
+.card {
+  animation: fade-up 0.4s cubic-bezier(0.19, 1, 0.22, 1) both;
+  animation-delay: calc(var(--i) * var(--stagger));
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+```
+
+**Cap de stagger total**: nunca passar de 500ms no total. Listas longas (20+ itens) → reduzir `--stagger` ou limitar aos primeiros N.
+
+**`will-change` sob demanda**: aplicar só quando a animação é iminente (`:hover`, `.is-animating`) e remover depois. Preemptivo = overhead permanente em GPU.
+
+**Perceived performance**: mudanças abaixo de 80ms parecem instantâneas (limiar de buffer sensorial). Ações críticas usam duração rápida (0.15s). Para operações longas, optimistic UI em ações de baixo custo (like, follow), nunca em pagamentos ou destrutivas.
 
 ---
 
