@@ -723,7 +723,7 @@ Seleção pelo modo cromático:
 
 **Fundo**
 - Somente sobre fundos sólidos ou gradientes permitidos pelo manual (§2) que garantam contraste adequado
-- Nunca aplicar sobre fotografias ou ilustrações sem camada de sobreposição sólida
+- Sobre fotografias permitido apenas em regiões de cor homogênea o suficiente para garantir contraste (ex: céu limpo, parede lisa, superfície uniforme) — proibido em áreas com variação de cor ou textura que comprometam a legibilidade
 
 ---
 
